@@ -8,12 +8,14 @@ import axios from 'axios';
 function Register() {
   
   const [data,setData]=useState({
-    firstName:"",
-    lastName:"",
+    
+    Name:"",
     email:"",
     password:""
   })
-
+const [ConPass,setPass]=useState({
+  password:""
+})
     const navigate = useNavigate();
   
     const [error,setError]=useState("");
@@ -21,7 +23,9 @@ function Register() {
     const handlechange=({currentTarget:input})=>{
       setData({...data,[input.name]:input.value});
     }
-
+    const handlechangePass=({currentTarget:input})=>{
+      setPass({...ConPass,[input.name]:input.value});
+    }
     const handlesubmit = async (e) => {
       e.preventDefault();
       try{
@@ -40,7 +44,10 @@ function Register() {
 	      alignItems: "center",
 	      justifyContent: "space-evenly",
         backgroundColor:"#f2f2e6",
-        minHeight:"95vh",
+        minHeight:"92vh",
+        position:"absolute",
+        top:"9%",
+        width:"100%",
     }
     
     const styleScreen={
@@ -55,17 +62,15 @@ function Register() {
       flexDirection:"column",
 	    alignItems: "center",
       backgroundColor:"white",
-      marginTop:"7%"
-
+      marginTop:"0%",
     }
     const styleinput={
         width:"100%",
         marginBottom:"1%",
-        marginTop:"1%",
+        marginTop:"0%",
         borderRadius:"7px",
         border:"1px solid  #e1e1ea",
         minHeight:"6vh",
-
     }
     const styleRegister={
       fontFamily:"system-ui",
@@ -75,7 +80,7 @@ function Register() {
     }
     const styleLabel={
       fontFamily: "system-ui",
-      fontSize:"16px"
+      fontSize:"17px"
     }
     const styleForm={
 	    height: "60vh",
@@ -95,42 +100,39 @@ function Register() {
       navigate(`/Login`);
     };
     return (
-      <div>
-      <NavBar/>
+    <div>
+    <div style={{position:"absolute",marginBottom:"5%"}}><NavBar/></div>
     <div style={styleContainer}>
     <div style={styleScreen}>
     <h3 style={styleRegister}>Register</h3> 
     <Form style={styleForm} onSubmit={handlesubmit} >
       <Form.Group className="mb-3" controlId="formBasicFirstNamename" style={styleLabel}>
-        <Form.Label>First Name</Form.Label><br/>
-        <Form.Control type="text" name="firstName" required value={data.firstName} onChange={handlechange} style={styleinput} />
+        <Form.Label></Form.Label><br/>
+        <Form.Control type="text" name="Name" placeholder='Name' required value={data.Name}  onChange={handlechange} style={styleinput} />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicLastNamename" style={styleLabel}>
-        <Form.Label>Last Name</Form.Label><br/>
-        <Form.Control type="text" name="lastName" required value={data.lastName} onChange={handlechange} style={styleinput}/>
+      <Form.Group className="mb-3" controlId="formBasicEmail" style={styleLabel}>
+        <Form.Label></Form.Label><br/>
+        <Form.Control type="email" name="Email" placeholder='Email' required value={data.Email}  onChange={handlechange} style={styleinput} />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label style={styleLabel}>Email</Form.Label><br/>
-        <Form.Control type="email" name="email" required value={data.email} onChange={handlechange} style={styleinput} />
+      <Form.Group className="mb-3" controlId="formBasicPassword" style={styleLabel}>
+        <Form.Label style={styleLabel}></Form.Label><br/>
+        <Form.Control type="password" name="password" placeholder='Password' required value={data.password} onChange={handlechange} style={styleinput} />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label style={styleLabel}>Password</Form.Label><br/>
-        <Form.Control type="password" name="password" required value={data.password} onChange={handlechange} style={styleinput} />
+      <Form.Group className="mb-3" controlId="formBasicConfirmedPassword" style={styleLabel}>
+        <Form.Label style={styleLabel}></Form.Label><br/>
+        <Form.Control type="password" name="password" placeholder='Confirm Password' required value={ConPass.password} onChange={handlechangePass} style={styleinput} />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label style={styleLabel}>Confirm Password</Form.Label><br/>
-        <Form.Control type="password" name="password" required value={data.password}  onChange={handlechange} style={styleinput} />
-      </Form.Group>
-      {error && <div>{error}</div>}
-      <Button variant="primary" type="submit" style={styleButton}>
+     
+      <div style={{position:"absolute",width:"80%",bottom:"1%"}}><Button variant="primary" type="submit" style={styleButton}>
         Create account
       </Button>
     <div style={{fontWeight:"500",fontSize:"18px"}}>
     <p style={{textAlign:"center",marginTop:"4%"}}>Already a member?<a style={{color:"#0D3A68",marginLeft:"1%"}} onClick={login}>Login</a></p>
-    </div>
+    </div></div>
+      
     </Form>
     </div>
-    <div style={{marginTop:"10%"}}>
+    <div style={{marginTop:"1%"}}>
     <img src="https://favtutor.com/resources/images/banner_front.png"></img>
     </div>
     </div>

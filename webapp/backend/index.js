@@ -1,18 +1,20 @@
-require("dotenv").config();
 const express = require("express");
+const studentRoute = require("./routes/studentRoute");
+const {connectDb}=require('./configuration/connectDb')
+var cors = require('cors')
 const app = express();
-const cors = require("cors");
-const connection = require("./db");
-const userRoutes = require("./routes/users");
-const authRoutes = require("./routes/auth");
+const dotenv = require("dotenv");
+dotenv.config();
+const port = process.env.PORT;
+connectDb();
+app.use(cors())
+app.listen(port, (er) => {
+if (er) {
+console.log(er);
+} else {
+console.log(`server is running on port ${port}`);
+}
+});
+app.use(express.json())
+app.use("/api", studentRoute);
 
-connection();
-
-app.use(express.json());
-app.use(cors());
-
-app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
-
-const port = process.env.PORT || 8080;
-app.listen(port, console.log(`Listening on port ${port}...`));

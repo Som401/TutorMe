@@ -1,11 +1,14 @@
 import Login from './components/Login';
 import Home from './components/Home'
 import Register from './components/Register'
-import TutorDash from './components/tutorComponents/TutorDash'
+import TutorDash from './components/tutorComponents/TutorDash';
+import Requests from './components/tutorComponents/Requests'
 import {  Route, Routes,BrowserRouter } from "react-router-dom";
+import {TutorData,RequestData} from './Data'
 import './App.css'
+import { useState } from 'react';
 function App() {
-  const user=localStorage.getItem("token");
+  const [Tutors,setStudent]=useState(TutorData);
   return (
     <div className="App">
     
@@ -15,7 +18,9 @@ function App() {
     <Route path="/Home" element={<Home />} />
     <Route path="/Login" element={<Login />} />
     <Route path= "/Register" element ={<Register/>}/>
-    {user&&<Route path="/TutorDash" element={<TutorDash/>}/>}
+    <Route path="/TutorDash" element={<TutorDash tutors={Tutors} />}/>
+    <Route path="/Requests" element={<Requests tutors={Tutors}/>}/>
+
     </Routes>
     </BrowserRouter>
     </div>

@@ -38,30 +38,32 @@ function Login() {
   const styleContainer={
         
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-evenly",
+	  alignItems: "center",
+	  justifyContent: "space-evenly",
     backgroundColor:"#f2f2e6",
-    minHeight:"95vh",
+    minHeight:"92vh",
+    position:"absolute",
+    top:"9%",
+    width:"100%",
 }
 
-const styleScreen={
-  
-  boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-  position: "relative",	
-  minHeight: "80vh",
-  width: "30%",
-  boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-  borderRadius:"15px",
-  display: "flex",
-  flexDirection:"column",
-  alignItems: "center",
-  backgroundColor:"white",
-  marginTop:"7%"
+const styleScreen={ 
+      boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+      position: "relative",	
+      minHeight: "80vh",
+      width: "30%",
+      boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+      borderRadius:"15px",
+      display: "flex",
+      flexDirection:"column",
+	    alignItems: "center",
+      backgroundColor:"white",
+      marginTop:"0%",
 }
 const styleinput={
     width:"100%",
-    marginBottom:"2%",
-    marginTop:"2%",
+    marginBottom:"4%",
+    marginTop:"4%",
     borderRadius:"7px",
     border:"1px solid  #e1e1ea",
     minHeight:"6vh",
@@ -76,7 +78,7 @@ const styleLogin={
 }
 const styleLabel={
   fontFamily: "system-ui",
-  fontSize:"16px"
+  fontSize:"17px"
 }
 const styleForm={
   height: "60vh",
@@ -97,20 +99,23 @@ const styleButton={
     };
     return (
       <div>
-      <NavBar/>
+      <div><NavBar/></div>
+
+      
     <div style={styleContainer}>
     <div style={styleScreen}>
     <h3 style={styleLogin}>Login</h3> 
     <Form style={styleForm} onSubmit={handlesubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail" style={styleLabel}>
-        <Form.Label style={styleLabel}>Email</Form.Label><br/>
-        <Form.Control type="email" name="email" required value={data.email} onChange={handlechange} style={styleinput} />
+        <Form.Label style={styleLabel}></Form.Label><br/>
+        <Form.Control type="email" name="email" placeholder='Email' required value={data.email} onChange={handlechange} style={styleinput} />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label style={styleLabel}>Password</Form.Label><br/>
-        <Form.Control type="password" name="password" required value={data.password}  onChange={handlechange} style={styleinput}/>
-        {error && <div>{error}</div>}
+      <Form.Group className="mb-3" controlId="formBasicEmail" style={styleLabel}>
+        <Form.Label style={styleLabel}></Form.Label><br/>
+        <Form.Control type="password" name="password" placeholder='Password' required value={data.password} onChange={handlechange} style={styleinput} />
       </Form.Group>
+      
+      <div style={{position:"absolute",width:"80%",bottom:"1%"}}>
       <Button variant="primary" type="submit" style={styleButton}>
         Sign up with email
       </Button>
@@ -118,10 +123,12 @@ const styleButton={
       <p style={{textAlign:"center",marginTop:"4%"}}>Not a member yet? 
       <a style={{color:"#0D3A68",marginLeft:"1%"}} onClick={register}>Register</a></p>
       </div>
+      </div>
+      
     </Form>
       
     </div>
-    <div style={{marginTop:"10%"}}>
+    <div style={{marginTop:"1%"}}>
     <img src="https://favtutor.com/resources/images/banner_front.png"></img>
     </div>
     </div>  

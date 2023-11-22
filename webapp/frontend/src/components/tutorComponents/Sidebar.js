@@ -3,17 +3,15 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import { Link } from "react-router-dom";
-
 function Sidebar({tutor}){
-    const handleLogout=()=>{
-      localStorage.removeItem("token");
-      window.location.reload;
-    }
+
     const styleSide={
         borderRight:" 1px solid #DADBE0",
         minHeight:"100vh",
-        width:"15%",
-        position:"fixed"
+        width:"16%",
+        position:"fixed",
+        backgroundColor:"#f2f2e6",
+
     }
     const styleBar={
         textDecoration:"none",
@@ -43,11 +41,11 @@ function Sidebar({tutor}){
             <Nav.Link>
                 <Link to="/" style={styleBar}>tutoring history</Link>
             </Nav.Link>
+            <Nav.Link>
+                <Link to="/Requests" style={styleBar}>tutoring requests</Link>
+            </Nav.Link>
           </Nav>
-          <div style={{fontWeight:"500",fontSize:"18px"}}>
-          <p style={{textAlign:"center",marginTop:"4%"}}>
-          <a style={{color:"#0D3A68",marginLeft:"1%"}} onClick={handleLogout}>logout</a></p>
-          </div>
+          
         </Container>
       </Navbar>
         </div>
