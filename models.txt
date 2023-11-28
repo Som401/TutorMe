@@ -1,0 +1,90 @@
+Student ("PK" StudentID, Email, Password, Name, photo,userType)
+
+Tutor ( "PK" TutorID, #subjectID, #StudentID)
+
+Rating (#TutorID, #StudentID, rate)
+
+Subject ("PK" SubjectID,SubjectName)
+
+Application ( "PK" requestID, #studentID, semester, subjectGPA, sendingDate, #SubjectName, result)
+
+Appointment ( "PK" AppointmentID, state, time, location, date, #SubjectID,#TutorID,#studentID)
+
+data:
+1)subjects:
+{
+  "SubjectID": 101,
+  "SubjectName": "Mathematics"
+}
+{
+  "SubjectID": 102,
+  "SubjectName": "Physics"
+}
+{
+  "SubjectID": 103,
+  "SubjectName": "Biology"
+}
+{
+  "SubjectID": 104,
+  "SubjectName": "History"
+}
+{
+  "SubjectID": 105,
+  "SubjectName": "Computer Science"
+}
+2)students:
+        {
+            "StudentID": 1,
+            "Name": "mustafa arfa",
+            "Email": "mustafa.arfa@gmail.com",
+            "Password": "degla123",
+            "Photo": null,
+            "UserType": "student"
+        },
+        {
+            "StudentID": 2,
+            "Name": "wassim benzina",
+            "Email": "wassim.benzina@gmail.com",
+            "Password": "moudir123",
+            "Photo": null,
+            "UserType": "student"
+        },
+        {
+            "StudentID": 3,
+            "Name": "karim saadoui",
+            "Email": "karim.saadoui@gmail.com",
+            "Password": "moudir1234",
+            "Photo": null,
+            "UserType": "student"
+        },
+        {
+            "StudentID": 4,
+            "Name": "Layla Mohammed",
+            "Email": "student2@example.com",
+            "Password": "securepass456",
+            "Photo": null,
+            "UserType": "student"
+        },
+        {
+            "StudentID": 5,
+            "Name": "Mahmoud Khalid",
+            "Email": "student3@example.com",
+            "Password": "pass321word",
+            "Photo": null,
+            "UserType": "student"
+        },
+        {
+            "StudentID": 6,
+            "Name": "Noor Ali",
+            "Email": "student4@example.com",
+            "Password": "studentpass789",
+            "Photo": null,
+            "UserType": "student"
+        }	
+	    "student": {
+       	    "UserType": "student",
+            "StudentID": 7,
+            "Email": "admin@gmail.com",
+            "Password": "admin",
+            "Name": "admin"
+        },
