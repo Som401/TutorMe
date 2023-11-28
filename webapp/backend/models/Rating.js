@@ -8,7 +8,8 @@ const Rating = sequelize.define('Rating', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-});
+},
+{ timestamps: false },);
 
 Rating.belongsTo(Tutor, { foreignKey: 'TutorID' });
 Rating.belongsTo(Student, { foreignKey: 'StudentID' });

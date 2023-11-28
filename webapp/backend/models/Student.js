@@ -1,7 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const { sequelize } = require("../configuration/connectDb");
-//const Joi = require("joi");
-//const passwordComplexity = require("joi-password-complexity");
 
 const Student = sequelize.define(
   "students",
@@ -31,8 +29,8 @@ const Student = sequelize.define(
       type: DataTypes.BLOB("long"),
     },
     UserType: {
-      type: DataTypes.STRING,
-      defaultValue: "0",
+      type: DataTypes.ENUM("student", "admin"),
+      defaultValue: "student",
     },
   },
   { timestamps: false }

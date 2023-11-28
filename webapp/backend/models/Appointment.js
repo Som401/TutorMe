@@ -23,7 +23,9 @@ const Appointment = sequelize.define('Appointment', {
     Date: {
         type: DataTypes.DATE,
     },
-});
+},
+{ timestamps: false },
+);
 
 Appointment.belongsTo(Subject, { foreignKey: 'SubjectID' });
 Appointment.belongsTo(Tutor, { foreignKey: 'TutorID' });

@@ -10,11 +10,14 @@ const {
   login,
 } = require("../Controllers/studentController");
 
+const isAuth = require("../middleware/isAuth")
+
+
 studentRoute.get("/students", getStudents);
-studentRoute.post("/students/register", postStudent);
-studentRoute.post("/students/login", login);
-studentRoute.put("/students/:StudentID", putStudent);
+studentRoute.post("/students", postStudent);
+studentRoute.post("/login", login);
+studentRoute.put("/students/:StudentID",  isAuth,putStudent);
 studentRoute.delete("/students/:StudentID", deleteStudent);
-studentRoute.get("/students/:StudentID", getOneStudent);
+studentRoute.get("/students/:StudentID",  isAuth, getOneStudent);
 
 module.exports = studentRoute;
