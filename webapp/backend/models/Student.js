@@ -26,7 +26,7 @@ const Student = sequelize.define(
       type: DataTypes.BLOB("long"),
     },
     UserType: {
-      type: DataTypes.ENUM("student", "admin"),
+      type: DataTypes.ENUM("student", "admin","tutor"),
       defaultValue: "student",
     },
   },

@@ -1,6 +1,8 @@
 const { sequelize } = require("../configuration/connectDb");
 require("dotenv").config();
 const Application = require("../models/Application");
+const Subject = require("../models/Subject");
+
 const { QueryTypes } = require("sequelize");
 
 const getApplications = async (request, response) => {
@@ -19,14 +21,17 @@ const getApplications = async (request, response) => {
 
   const postApplication = async (request, response) => {
     try {
-      const { studentId, subjectId, subjectGrade} = request.body;
-
+      const { studentID, subjectName, subjectGrade} = request.body;
+      const subject = await Subject.findOne({where:{ SubjectName: subjectName }});
+      if (!subject) {
+          return response.status(400).json({ msg: "Subject not found" });
+      }
       const newApplication = {
-        studentId,
-        subjectId,
-        subjectGrade,
-        status: "Pending",
-        sendingDate:new Date()
+        StudentID:studentID,
+        SubjectID: subject.SubjectID ,
+        SubjectGrade:subjectGrade,
+        Result: "Pending",
+        SendingDate:new Date()
       };
   
       await Application.create(newApplication);
@@ -37,4 +42,25 @@ const getApplications = async (request, response) => {
     }
   };
 
-  module.exports={getApplications,postApplication};
+  const putApplication = async (req, res) => {
+    const id = req.params.ApplicationID;
+    const { result } = req.body; 
+
+    try {
+        const [updateCount] = await Application.update(
+            { Result: result },
+            { where: { ApplicationID: id, Result: 'Pending' } }
+        );
+
+        if (updateCount > 0) {
+            res.status(200).json({ msg: "Application result updated successfully" });
+        } else {
+            res.status(404).json({ msg: "Application not found or already updated" });
+        }
+    } catch (error) {
+        res.status(500).json({ msg: "Error on updating application result", error: error.message });
+    }
+};
+
+
+  module.exports={getApplications,postApplication,putApplication};

@@ -15,12 +15,12 @@ const Appointment = sequelize.define('Appointments', {
         type: DataTypes.STRING,
     },
     Time: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
     },
     Location: {
         type: DataTypes.STRING,
     },
-    Date: {
+    SendingDate: {
         type: DataTypes.DATE,
     },
 },

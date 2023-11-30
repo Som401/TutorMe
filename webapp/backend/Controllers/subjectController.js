@@ -16,6 +16,25 @@ const getSubjects = async (request, response) => {
         .json({ msg: "Error on getting subjects", error: error.message });
     }
   };
+  const getOneSubject = async (request, response) => {
+    try {
+        const { subjectName } = request.params; 
+        const subject = await sequelize.query("SELECT * FROM subjects WHERE SubjectName = :subjectName", {
+            replacements: { subjectName },
+            type: QueryTypes.SELECT,
+        });
+
+        if (subject.length === 0) {
+            return response.status(404).json({ msg: "Subject not found" });
+        }
+
+        response.status(200).json({ subject: subject[0] }); 
+    } catch (error) {
+        console.error("Error fetching subject:", error);
+        response.status(500).json({ msg: "Error getting subject", error: error.message });
+    }
+};
+
   const postSubject = async (request, response) => {
     try {
     const newSubject = request.body;
@@ -29,4 +48,4 @@ const getSubjects = async (request, response) => {
     }
     };
     
-  module.exports={getSubjects,postSubject};
+  module.exports={getSubjects,postSubject,getOneSubject};

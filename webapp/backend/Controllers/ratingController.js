@@ -16,5 +16,4 @@ const getRatings = async (request, response) => {
         .json({ msg: "Error on getting ratings", error: error.message });
     }
   };
-
   module.exports={getRatings};

@@ -32,11 +32,11 @@ app.listen(port, (er) => {
 });
 app.use("/api", studentRoute);
 app.use("/api", subjectRoute);
-//app.use("/api", tutorRoute);
-//app.use("/api", appointmentRoute);
-//app.use("/api", ratingRoute);
-//app.use("/api", ratingRoute);
-//app.use("/api", applicationRoute);
+app.use("/api", tutorRoute);
+app.use("/api", appointmentRoute);
+app.use("/api", ratingRoute);
+app.use("/api", ratingRoute);
+app.use("/api", applicationRoute);
 
 
 
