@@ -1,0 +1,133 @@
+
+.tutor-card-container {
+    display: flex;  
+    flex-wrap: wrap;
+    /* min-height: 40vh; */
+    align-items: center;
+    width: 66%;
+    transition: 0.3s;
+    border-radius: 5px; 
+    margin-left: 20%;
+  }
+
+  .card-body {
+    max-height: 70px;
+    text-align: center;
+  }
+
+  .tutorcard {
+    user-select: none;
+    max-width: 350px;
+    height: 580px;
+    /* min-height: 40vh; */
+    margin: 5rem auto;
+    border: 1px solid #ffffff22;
+    background-color: #282c34;
+    background: linear-gradient(0deg, rgba(40, 44, 52, 1) 0%, rgba(17, 0, 32, 0.5) 100%);
+    box-shadow: 0 7px 20px 5px #00000088;
+    border-radius: 0.7rem;
+    overflow: hidden;
+    transition: 0.5s all;
+  
+    .card-img{
+      border-radius: 0.5rem;
+      max-width: 100%;
+      height: 250px;
+      object-fit: cover;
+      background-color: rgb(46, 36, 56);
+    } 
+
+    .list-group-flush {
+      margin-bottom: 1rem; 
+      align-items: center;
+    }
+
+    .subject {
+      color: #524b69;
+      align-self: center;
+    }
+
+    .duration {
+      align-items: center;
+    }
+
+    .duration a {
+      /* color: rgb(80, 7, 137); */
+      text-decoration: none;
+      
+    }
+
+    ::before{
+      position: fixed;
+      content: "";
+      box-shadow: 0 0 100px 40px #ffffff08;
+      top: -10%;
+      left: -100%;
+      transform: rotate(-45deg);
+      height: 60rem;
+      transition: .7s all;
+    }
+    &:hover{
+      border: 1px solid #ffffff1e;
+      box-shadow: 0 7px 50px 10px #000000aa;
+      transform: scale(1.015);
+
+      ::before{
+        filter: brightness(.5);
+        top: -100%;
+        left: 200%;
+      }
+    }
+  }
+  
+  /* .req{
+    background-color: #E1C16E;
+    border: none;
+    color: white;
+    border-radius: 12px;
+    padding: 8px 6px;
+    cursor: pointer;
+    
+
+  }
+.req:hover{ 
+  background-color: black;
+} */
+
+
+
+
+.req {
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.req:hover {
+  background-color: 	#F0E68C ;
+}
+
+.req:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .req{
+    min-width: 120px;
+    padding: 0 25px;
+  }
+}

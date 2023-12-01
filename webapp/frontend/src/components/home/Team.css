@@ -1,0 +1,93 @@
+.Team-container {
+  
+   /* Adjust the height of the card container */
+  display: flex;
+  gap: 10px; /* Adjust the gap between cards */
+  min-height: 80vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Team {
+  width: 190px;
+  height: 254px;
+  position: relative;
+  display: flex;
+  place-content: center;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 20px;
+  background: transparent;
+  background-color: black;
+
+
+}
+ 
+
+
+.Team h2 {
+  z-index: 1;
+  color: rgb(254, 252, 252);
+  font-size: 2em;
+  padding-left: 30px ;
+  padding-top: 170px;
+  
+}
+
+.Team::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  background-image: linear-gradient(180deg, rgb(3, 174, 174), rgb(255, 48, 255));
+  height: 130%;
+  animation: rotBGimg 3s linear infinite;
+  transition: all 0.2s linear;
+}
+
+.Team::after {
+  content: '';
+  position: absolute;
+  
+
+  inset: 5px;
+  border-radius: 15px;
+  background-position: center;
+  background-size: 150%; /* Center the background image */
+}
+.Team:nth-child(1)::after {
+  background-image: url('https://scontent.ftun14-1.fna.fbcdn.net/v/t39.30808-1/398373834_1067740141330006_565573132370530001_n.jpg?stp=dst-jpg_p240x240&_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=wLXw-Va5PSQAX8I5vdn&_nc_ht=scontent.ftun14-1.fna&oh=00_AfAcmBgRDqUW19ASiJMUvUxaKoDh776L8QcHqHoAg58vVw&oe=656B8F12');
+}
+
+.Team:nth-child(2)::after {
+  background-image: url('https://scontent.xx.fbcdn.net/v/t1.15752-9/404081930_2062937634044729_6356912958817890803_n.jpg?stp=dst-jpg_s206x206&_nc_cat=106&ccb=1-7&_nc_sid=510075&_nc_ohc=QvIB5ewg2RAAX_zKbVd&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdQZ-cFWHftk3uVwyY2u4SVsicuaI1tQmboVsLw6g8xKzQ&oe=658D40FA');
+  
+}
+
+.Team:nth-child(3)::after {
+  background-image: url('https://scontent.ftun14-1.fna.fbcdn.net/v/t1.15752-9/387637184_670684988515269_322688403427500404_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=8cd0a2&_nc_ohc=-gfJqsdy7uIAX_r0-6K&_nc_ht=scontent.ftun14-1.fna&oh=03_AdTsG2WYZ9W4-Mwz29n_5fb7wq3zzDzQ-7NG6mWWJ3klRg&oe=658D21D4');
+
+}
+.Team:nth-child(4)::after {
+  background-image: url('https://scontent.ftun14-1.fna.fbcdn.net/v/t1.15752-9/404134092_856827982519267_286189242188861389_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=8cd0a2&_nc_ohc=VWU2kohKOaYAX-uep4o&_nc_ht=scontent.ftun14-1.fna&oh=03_AdT98odyPus9iQ3z--sGinCB-Cq8AB4BWIWVUG8Tn1HqmQ&oe=658D17FC');
+}
+
+.Team:nth-child(5)::after {
+  background-image: url('https://scontent.xx.fbcdn.net/v/t1.15752-9/325671668_483548010649111_4176018667151016654_n.jpg?stp=dst-jpg_s206x206&_nc_cat=103&ccb=1-7&_nc_sid=510075&_nc_ohc=mK_wZo-Puy4AX-bsOuf&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdRT2THHMM92yBOpiAw-2UjmgxzTf1_TcfgzEjnqb0T9sA&oe=658D6D4A');
+  
+}
+
+.Team:nth-child(6)::after {
+  background-image: url('https://scontent.xx.fbcdn.net/v/t1.15752-9/405316728_1580521989430452_3045165445966141560_n.jpg?stp=dst-jpg_s206x206&_nc_cat=101&ccb=1-7&_nc_sid=510075&_nc_ohc=9e-vbgxLg_EAX-h5jVL&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSy_adH5aiKPT34ziQOeLr61y0l271g5v3ECNVPQJnmbQ&oe=658D47E7');
+
+}
+@keyframes rotBGimg {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
