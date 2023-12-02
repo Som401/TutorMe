@@ -4,8 +4,8 @@ import Dash from "./Dash";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // Ensure correct import
 
-function TutorDash() {
-  //
+function TutorDash({student}) {
+  /*
   const url = "http://localhost:8080/api/students";
   const [student, setStudent] = useState({});
   const [studentId, setStudentId] = useState(null);

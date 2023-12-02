@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import("./MakeAppointment.css");
 
-const MakeAppointment = () => {
+const MakeAppointment = ({student}) => {
   const [formData, setFormData] = useState({
     studentName: "",
     tutorName: "",
@@ -39,7 +39,7 @@ const MakeAppointment = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between"}}>
         <div style={{ marginRight: "16%" }}>
-          <Sidebar/>
+          <Sidebar student={student} />
         </div>
         <div style={styleContainer2}>
         <div className="wrapper" style={{ display: "flex",flexDirection: "column"}}>

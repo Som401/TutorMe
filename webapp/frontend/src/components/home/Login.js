@@ -28,9 +28,10 @@ function Login() {
         const token = response.data.token;
         localStorage.setItem("token", token);
         if(response.data.student.UserType==='student'){
-          navigate('/TutorDash');
+          navigate('/StudentDash');
         }
-        else{navigate('/')}
+        
+        else{navigate('/StudentDash')}
       })
       .catch((error) => {
         alert(error.response.data.msg);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./MakeAppointment";
 import Sidebar from "./Sidebar";
 
-const TutoringReqApplication = () => {
+const Application = ({student}) => {
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
   const [subjectGrade, setSubjectGrade] = useState("");
@@ -28,7 +28,7 @@ const TutoringReqApplication = () => {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar/>
+        <Sidebar student={student} />
       </div>
       <div style={styleContainer2}>
         <div
@@ -97,4 +97,4 @@ const TutoringReqApplication = () => {
   );
 };
 
-export default TutoringReqApplication;
+export default Application;

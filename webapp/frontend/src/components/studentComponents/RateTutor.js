@@ -2,7 +2,7 @@ import "./MakeAppointment.css";
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 
-const RateTutor = () => {
+const RateTutor = ({student}) => {
   const [formData, setFormData] = useState({
     tutorName: "",
     subject: "",
@@ -46,7 +46,7 @@ const RateTutor = () => {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar  />
+        <Sidebar student={student}   />
       </div>
       <div style={styleContainer2}>
         <div

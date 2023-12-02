@@ -4,7 +4,7 @@ import "./SearchBar.css";
 import List from "./List";
 import Sidebar from "./Sidebar";
 
-function SearchBar() {
+function SearchBar({student}) {
   const [inputText, setInputText] = useState("");
   // const [tutors, setTutors] = useState([]);
 
@@ -39,7 +39,7 @@ function SearchBar() {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar />
+        <Sidebar student={student} />
       </div>
       <div style={styleContainer2}>
         <div
@@ -55,7 +55,6 @@ function SearchBar() {
               label="Search"
             />
           </div>
-          <List input={inputText} />
         </div>
       </div>
     </div>

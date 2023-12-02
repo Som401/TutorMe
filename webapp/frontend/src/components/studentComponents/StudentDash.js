@@ -1,12 +1,18 @@
 import Sidebar from "./Sidebar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useLocation } from "react";
 import Dash from "./Dash";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // Ensure correct import
 
-function TutorDash() {
-  
-  const url = "http://localhost:8080/api/students";
+function StudentDash({student}) {
+
+
+  useEffect(() => {
+   
+      console.log(student);
+    
+  }, []); 
+  /*const url = "http://localhost:8080/api/students";
   const [student, setStudent] = useState({});
   const [studentId, setStudentId] = useState(null);
   const [show, setShow] = useState(false);
@@ -60,12 +66,12 @@ reload();
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar tutor={student} />
+        <Sidebar student={student}/>
       </div>
       <div>
-        <Dash tutor={student} />
+        <Dash student={student}/>
       </div>
     </div>
   );
 }
-export default TutorDash;
+export default StudentDash;

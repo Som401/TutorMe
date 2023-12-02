@@ -2,7 +2,7 @@ import image1 from "../../assets/image1.jpg";
 import Card from "react-bootstrap/Card";
 import Calendar from "../home/Calendar";
 import DateTime from "../home/DateTime";
-function Dash({ tutor }) {
+function Dash({ student }) {
   const styleContainer = {
     backgroundColor: "white",
     minHeight: "100vh",
