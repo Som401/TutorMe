@@ -2,68 +2,69 @@ import Sidebar from "./Sidebar";
 import React, { useEffect, useState } from "react";
 import Dash from "./Dash";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Ensure correct import
-
-function TutorDash({student}) {
-  /*
-  const url = "http://localhost:8080/api/students";
+import { jwtDecode } from "jwt-decode";
+//import { useStudentContext } from '../home/StudentContext';
+function TutorDash() {
+  const [Appointment, setAppointment] = useState([]);
+  const [Requests, setRequests] = useState([]);
+  const [DoneAppointment, setDoneAppointment] = useState([]);
   const [student, setStudent] = useState({});
-  const [studentId, setStudentId] = useState(null);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [studentUpdate, setUpdate] = useState({
-    Name: "",
-    Email: "",
-  });
-  const reload = () => window.location.reload();
+  const [tutorID, setTutorID] = useState(-1);
+  console.log(student,tutorID);
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log(token);
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        setStudentId(decodedToken.StudentID);
-      } catch (error) {
-        console.error("Token decoding error:", error);
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          const currentStudentId = decodedToken.StudentID;
+
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+
+          const studentResponse = await axios.get(
+            `http://localhost:8080/api/students/${currentStudentId}`,
+            { headers }
+          );
+          setStudent(studentResponse.data.student);
+
+          const tutorResponse = await axios.get(
+            `http://localhost:8080/api/tutors/${currentStudentId}`
+          );
+          setTutorID(tutorResponse.data.TutorID);
+          const currentTutorId=tutorID;
+          const tutorAppointments = await axios.get(
+            `http://localhost:8080/api/appointments/approved/${currentTutorId}`
+          );
+          setAppointment(tutorAppointments.data.appointments);
+          const tutorRequests = await axios.get(
+            `http://localhost:8080/api/appointments/pending/${currentTutorId}`
+          );
+          setRequests(tutorRequests.data.appointments);
+          const DoneAppointments = await axios.get(
+            `http://localhost:8080/api/appointments/${currentTutorId}`
+          );
+          setDoneAppointment(DoneAppointments.data.appointments);
+          console.log(DoneAppointments.data.appointments,currentTutorId)
+        } catch (error) {
+          console.error("Token decoding or fetching data error:", error);
+        }
       }
-    }
-    if (studentId) {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      axios
-        .get(`${url}/${studentId}`, { headers })
-        .then((res) => {
-          setStudent(res.data.student);
-        })
-        .catch((error) => {
-          console.error(error.response.data.msg);
-        });
-    }
-  }, [studentId]);
-  const handleChange = (e) => {
-    setUpdate({ ...studentUpdate, [e.target.id]: e.target.value });
-  };
-  /*
-const handleUpdate=async(e)=>{
-e.preventDefault();
-try {
-await axios.put(`${url}/${studentId}`, studentUpdate);
-} catch (error) {
-console.log(error);
-}
-handleClose();
-reload();
-};*/
-  //
+    };
+
+    fetchData();
+    console.log(student, tutorID);
+  }, [tutorID]);
+
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar tutor={student} />
+        <Sidebar student={student} tutorID={tutorID} />
       </div>
       <div>
-        <Dash tutor={student} />
+        <Dash student={student} tutorID={tutorID} Appointment={Appointment} DoneAppointment={DoneAppointment} Requests={Requests} />
       </div>
     </div>
   );

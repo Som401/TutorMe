@@ -1,10 +1,11 @@
 import Sidebar from "./Sidebar";
 import { useState } from "react";
 import OneRequest from "./OneRequest";
-import { RequestData } from "../../Data";
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { useEffect } from "react";
 
 const styleImage={
   width:"20%",
@@ -39,30 +40,71 @@ const styleContainer2 = {
     paddingRight:"30%"
   }
 function Requests({ tutors }) {
-  const [Request, setRequest] = useState(RequestData);
+    const [Appointment, setAppointment] = useState([]);
+  const [student, setStudent] = useState({});
+  const [tutorID, setTutorID] = useState(-1);
+  console.log(student, tutorID,Appointment);
 
-  const [id, setid] = useState("1");
-  const selectedTutor = tutors.find((elt) => elt.id === id);
-  const handleDelete = (id) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          const currentStudentId = decodedToken.StudentID;
+
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+
+          const studentResponse = await axios.get(
+            `http://localhost:8080/api/students/${currentStudentId}`,
+            { headers }
+          );
+          setStudent(studentResponse.data.student);
+
+          const tutorResponse = await axios.get(
+            `http://localhost:8080/api/tutors/${currentStudentId}`
+          );
+          setTutorID(tutorResponse.data.TutorID);
+          const currentTutorId=tutorID;
+          const tutorAppointments = await axios.get(
+            `http://localhost:8080/api/appointments/pending/${currentTutorId}`
+          );
+          setAppointment(tutorAppointments.data.appointments);
+        } catch (error) {
+          console.error("Token decoding or fetching data error:", error);
+        }
+      }
+    };
+
+    fetchData();
+    console.log(student, tutorID);
+  }, [tutorID]);
+
+ 
+  
+  const handleDelete = (id,newState) => {
     if (window.confirm("are you sure about your decision")) {
-      /* axios
-          .delete(`${url}/${id}`)
-          .then((res)=>{
+      axios
+        .put(`http://localhost:8080/api/appointments/${id}/${newState}`)
+        .then((res) => {
+          console.log(`Appointment state = ${newState}`);
         })
-        .catch((err)=>{
-            console.log(err);
-        })*/
-      setRequest(Request.filter((elt) => elt.id !== id));
+        .catch((err) => {
+          console.error("Error updating appointment:", err);
+        });
+      setAppointment(Appointment.filter((elt) => elt.AppointmentID !== id));
     }
   };
   return (
     <div style={{ display: "flex", justifyContent: "space-between"}}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar tutor={selectedTutor} />
+        <Sidebar student={student} />
       </div>
       <div style={styleContainer2}>
       <div style={{ display: "flex",flexDirection: "column",width:"100%"}}>
-      {Request && Request.length > 0 && <Navbar bg="dark" data-bs-theme="dark" style={{width:"70%",margin:"auto",marginTop:"3%"}} >
+      {Appointment && Appointment.length > 0 && <Navbar bg="dark" data-bs-theme="dark" style={{width:"70%",margin:"auto",marginTop:"3%"}} >
         <Container>
           <div style={{ display: "flex"}}>
           <Navbar.Brand style={styleBar}>Date</Navbar.Brand>
@@ -72,13 +114,13 @@ function Requests({ tutors }) {
         </Container>
       </Navbar>}
       
-        {Request.map((elt,index) => (
+        {Appointment.map((elt,index) => (
           <div style={styleContainer}>
-            <OneRequest  elt={elt} index={index} handleDelete={handleDelete} />
+            <OneRequest  elt={elt} handleDelete={handleDelete} />
           </div>
         ))}
       </div>
-        {Request && Request.length === 0 && <div style={{ display: "flex", justifyContent: "center"}}>
+        {Appointment && Appointment.length === 0 && <div style={{ display: "flex", justifyContent: "center"}}>
         <p style={{display: "flex",flexDirection: "column",justifyContent: "center",fontSize: "30px",marginRight:"10%"}}>No requests at the moment</p>
         <img style={styleImage} src="https://assets-global.website-files.com/5f881c03ca009ec69859eabf/5fec4cbe9eefd2162395e348_no-feature-requests.png" alt="Empty Request" />
         </div>}

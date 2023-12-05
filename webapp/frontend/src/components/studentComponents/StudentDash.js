@@ -1,77 +1,62 @@
-import Sidebar from "./Sidebar";
-import React, { useEffect, useState,useLocation } from "react";
-import Dash from "./Dash";
+import React, {useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // Ensure correct import
+import Sidebar from "./Sidebar";
+import Dash from "./Dash";
 
-function StudentDash({student}) {
-
-
-  useEffect(() => {
-   
-      console.log(student);
-    
-  }, []); 
-  /*const url = "http://localhost:8080/api/students";
+export const StudentDash = () => {
   const [student, setStudent] = useState({});
-  const [studentId, setStudentId] = useState(null);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [studentUpdate, setUpdate] = useState({
-    Name: "",
-    Email: "",
-  });
-  const reload = () => window.location.reload();
+  const [tutorID, setTutorID] = useState(-1);
+  const [Appointment, setAppointment] = useState([]);
+  const [Requests, setRequests] = useState([]);
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log(token);
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        setStudentId(decodedToken.StudentID);
-      } catch (error) {
-        console.error("Token decoding error:", error);
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          const currentStudentId = decodedToken.StudentID;
+
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+
+          axios.put('http://localhost:8080/api/appointments');
+
+          const studentResponse = await axios.get(`http://localhost:8080/api/students/${currentStudentId}`, { headers });
+          setStudent(studentResponse.data.student);
+
+          const tutorResponse = await axios.get(`http://localhost:8080/api/tutors/${currentStudentId}`);
+          setTutorID(tutorResponse.data.TutorID);
+          const tutorAppointments = await axios.get(
+            `http://localhost:8080/api/studentappointments/approved/${currentStudentId}`
+          );
+          setAppointment(tutorAppointments.data.appointments);
+          const tutorRequests = await axios.get(
+            `http://localhost:8080/api/studentappointments/pending/${currentStudentId}`
+          );
+          setRequests(tutorRequests.data.appointments);
+        } catch (error) {
+          console.error('Token decoding or fetching data error:', error);
+        }
       }
-    }
-    if (studentId) {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      axios
-        .get(`${url}/${studentId}`, { headers })
-        .then((res) => {
-          setStudent(res.data.student);
-        })
-        .catch((error) => {
-          console.error(error.response.data.msg);
-        });
-    }
-  }, [studentId]);
-  const handleChange = (e) => {
-    setUpdate({ ...studentUpdate, [e.target.id]: e.target.value });
-  };
-  /*
-const handleUpdate=async(e)=>{
-e.preventDefault();
-try {
-await axios.put(`${url}/${studentId}`, studentUpdate);
-} catch (error) {
-console.log(error);
-}
-handleClose();
-reload();
-};*/
-  //
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div style={{ marginRight: "16%" }}>
-        <Sidebar student={student}/>
+   
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ marginRight: "16%" }}>
+          <Sidebar student={student} tutorID={tutorID}  />
+        </div>
+        <div>
+          <Dash student={student} Appointment={Appointment} Requests={Requests}/>
+        </div>
       </div>
-      <div>
-        <Dash student={student}/>
-      </div>
-    </div>
   );
-}
+};
+
 export default StudentDash;

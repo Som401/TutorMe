@@ -20,14 +20,13 @@ const Appointment = sequelize.define('Appointments', {
     Location: {
         type: DataTypes.STRING,
     },
-    SendingDate: {
+    Date: {
         type: DataTypes.DATE,
     },
 },
 { timestamps: false },
 );
 
-Appointment.belongsTo(Subject, { foreignKey: 'SubjectID' });
 Appointment.belongsTo(Tutor, { foreignKey: 'TutorID' });
 Appointment.belongsTo(Student, { foreignKey: 'StudentID' });
 

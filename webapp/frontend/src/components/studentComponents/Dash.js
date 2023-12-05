@@ -2,7 +2,7 @@ import image1 from "../../assets/image1.jpg";
 import Card from "react-bootstrap/Card";
 import Calendar from "../home/Calendar";
 import DateTime from "../home/DateTime";
-function Dash({ student }) {
+function Dash({Appointment,Requests}) {
   const styleContainer = {
     backgroundColor: "white",
     minHeight: "100vh",
@@ -33,12 +33,6 @@ function Dash({ student }) {
   const styleDate = {
     position: "absolute",
     top: "40%",
-    right: "10%",
-    fontSize: "22px",
-  };
-  const styleTime = {
-    position: "absolute",
-    top: "50%",
     right: "10%",
     fontSize: "22px",
   };
@@ -74,7 +68,6 @@ function Dash({ student }) {
     bottom: "0%",
   };
   const d = new Date();
-  const showTime = d.getHours() + ":" + d.getMinutes();
   return (
     <div style={styleContainer}>
       <div style={styleImageDiv}>
@@ -86,11 +79,7 @@ function Dash({ student }) {
       <div style={styleBoxcontainer}>
         <Card style={styleBox}>
           <Card.Body>
-            <Card.Title>Current appointments:</Card.Title>
-            <Card.Text style={{ fontSize: "18px" }}>
-              {//tutor.nb_appointments
-              }
-            </Card.Text>
+            <Card.Title>Current appointments: {Appointment.length} </Card.Title>
             <div style={{ position: "relative" }}>
               <img
                 style={styleIcon}
@@ -101,11 +90,7 @@ function Dash({ student }) {
         </Card>
         <Card style={styleBox2}>
           <Card.Body>
-            <Card.Title>Current requests:</Card.Title>
-            <Card.Text style={{ fontSize: "18px" }}>
-              {//tutor.nb_requests
-              }
-            </Card.Text>
+            <Card.Title>Current requests: {Requests.length}</Card.Title>
             <div style={{ position: "relative" }}>
               <img
                 style={styleIcon}
@@ -138,7 +123,7 @@ function Dash({ student }) {
           justifyContent: "center",
         }}
       >
-        <Calendar />
+        <Calendar Appointment={Appointment} />
       </div>
     </div>
   );

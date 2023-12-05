@@ -1,4 +1,3 @@
-import "./SideNavBar.css";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -7,8 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState,useEffect } from "react";
 import axios from 'axios';
 
-function Sidebar({ student }) {
-  const [isHovered, setHover] = useState(false);
+function Sidebar({ student,tutorID}) {
   const styleSide = {
     borderRight: " 1px solid #DADBE0",
     minHeight: "100vh",
@@ -64,6 +62,16 @@ function Sidebar({ student }) {
                 </Link>
               </Nav.Link>
               <Nav.Link>
+              <Link to="/StudentAppointments" style={styleBar}>
+                Appointments
+              </Link>
+            </Nav.Link>
+              <Nav.Link>
+                <Link to="/SearchBar" style={styleBar}>
+                  Search Tutor
+                </Link>
+              </Nav.Link>
+              <Nav.Link>
                 <Link to="/MakeAppointment" style={styleBar}>
                   Make Appointment
                 </Link>
@@ -74,14 +82,9 @@ function Sidebar({ student }) {
                 </Link>
               </Nav.Link>
               
-              <Nav.Link>
-                <Link to="/SearchBar" style={styleBar}>
-                  Search Tutor
-                </Link>
-              </Nav.Link>
             </div>
             <div>
-              <Nav.Link>
+             {tutorID!==-1&&<Nav.Link>
                 <Link
                   to="/tutorDash"
                   onClick={handleSwitch}
@@ -89,17 +92,17 @@ function Sidebar({ student }) {
                 >
                   Switch to tutor
                 </Link>
-              </Nav.Link>
+              </Nav.Link>}
              <Nav.Link>
                 <Link to="/" onClick={handleSignOut} style={stylelogout}>
                   Logout
                 </Link>
               </Nav.Link>
-              {/*tutorID===-1&&<Nav.Link>
+              {tutorID===-1&&<Nav.Link>
                 <Link to="/Application" style={styleBar}>
                   Application
                 </Link>
-              </Nav.Link>*/}
+              </Nav.Link>}
             </div>
           </Nav>
         </Container>

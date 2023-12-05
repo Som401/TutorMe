@@ -3,7 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import { Link, useNavigate } from "react-router-dom";
-function Sidebar({ tutor }) {
+function Sidebar({ student, tutorID }) {
   const styleSide = {
     borderRight: " 1px solid #DADBE0",
     minHeight: "100vh",
@@ -43,7 +43,7 @@ function Sidebar({ tutor }) {
     <div style={styleSide}>
       <Navbar>
         <Container style={{ display: "flex", flexDirection: "column" }}>
-          <Navbar.Brand href="#home">Hello, {tutor.Name}!</Navbar.Brand>
+          <Navbar.Brand href="#home">Hello, {student.Name}!</Navbar.Brand>
           <Image
             style={styleImage}
             src="https://cdn-icons-png.flaticon.com/512/3449/3449633.png"
@@ -61,11 +61,6 @@ function Sidebar({ tutor }) {
             <Nav.Link>
               <Link to="/Appointments" style={styleBar}>
                 Appointments
-              </Link>
-            </Nav.Link>
-            <Nav.Link>
-              <Link to="/" style={styleBar}>
-                Tutoring history
               </Link>
             </Nav.Link>
             <Nav.Link>

@@ -2,13 +2,12 @@ import image1 from "../../assets/image1.jpg";
 import Card from "react-bootstrap/Card";
 import Calendar from "../home/Calendar";
 import DateTime from "../home/DateTime";
-function Dash({ tutor }) {
+function Dash({ Appointment,DoneAppointment,Requests }) {
   const styleContainer = {
     backgroundColor: "white",
     minHeight: "100vh",
     width: "100%",
     alignItems: "center",
-    //border: "2px solid red",
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
@@ -24,7 +23,6 @@ function Dash({ tutor }) {
     position: "relative",
     boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
     marginBottom: "2%",
-    //border:"2px solid red",
     marginTop: "4%",
     marginLeft: "10%",
     marginRight: "10%",
@@ -36,42 +34,42 @@ function Dash({ tutor }) {
     right: "10%",
     fontSize: "22px",
   };
-  const styleTime = {
-    position: "absolute",
-    top: "50%",
-    right: "10%",
-    fontSize: "22px",
-  };
   const styleBoxcontainer = {
     width: "80%",
     display: "flex",
     flexDirection: "row",
     gap: "2%",
-    marginBottom: "4%",
+    marginBottom: "4%"
   };
   const styleBox = {
     border: "#E6E5E1",
     backgroundColor: "#E6E5E1",
     width: "100%",
     height: "100%",
+    minHeight:"12vh",
+    position: "relative" 
   };
   const styleBox2 = {
     border: "#E0E1E5",
     backgroundColor: "#E0E1E5",
     width: "100%",
     height: "100%",
+    minHeight:"12vh",
+    position: "relative" 
   };
   const styleBox3 = {
     border: "#BFBCC7",
     backgroundColor: "#BFBCC7",
     width: "100%",
     height: "100%",
+    minHeight:"12vh",
+    position: "relative" 
   };
   const styleIcon = {
     position: "absolute",
     width: "10%",
     right: "0%",
-    bottom: "0%",
+    top: "5px",
   };
   const d = new Date();
   const showTime = d.getHours() + ":" + d.getMinutes();
@@ -86,11 +84,7 @@ function Dash({ tutor }) {
       <div style={styleBoxcontainer}>
         <Card style={styleBox}>
           <Card.Body>
-            <Card.Title>Current Students:</Card.Title>
-            <Card.Text style={{ fontSize: "18px" }}>
-              {//tutor.nb_appointments
-              }
-            </Card.Text>
+            <Card.Title>Current appointments: {Appointment.length}</Card.Title>
             <div style={{ position: "relative" }}>
               <img
                 style={styleIcon}
@@ -101,11 +95,7 @@ function Dash({ tutor }) {
         </Card>
         <Card style={styleBox2}>
           <Card.Body>
-            <Card.Title>Current requests:</Card.Title>
-            <Card.Text style={{ fontSize: "18px" }}>
-              {//tutor.nb_requests
-              }
-            </Card.Text>
+            <Card.Title>Current requests: {Requests.length}</Card.Title>
             <div style={{ position: "relative" }}>
               <img
                 style={styleIcon}
@@ -116,11 +106,7 @@ function Dash({ tutor }) {
         </Card>
         <Card style={styleBox3}>
           <Card.Body>
-            <Card.Title>Ex students:</Card.Title>
-            <Card.Text style={{ fontSize: "18px" }}>
-              {//tutor.nb_ex_student
-              }
-            </Card.Text>
+            <Card.Title>Ex students: {DoneAppointment.length}</Card.Title>
             <div style={{ position: "relative" }}>
               <img
                 style={styleIcon}
@@ -138,7 +124,7 @@ function Dash({ tutor }) {
           justifyContent: "center",
         }}
       >
-        <Calendar />
+        <Calendar  Appointment={Appointment} />
       </div>
     </div>
   );

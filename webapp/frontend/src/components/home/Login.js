@@ -22,21 +22,29 @@ function Login() {
     e.preventDefault();
     const url = "http://localhost:8080/api/login";
     axios
-      .post(url, student)
-      .then((response) => {
-       console.log(response.data);
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        if(response.data.student.UserType==='student'){
-          navigate('/StudentDash');
-        }
-        
-        else{navigate('/StudentDash')}
-      })
-      .catch((error) => {
-        alert(error.response.data.msg);
-        console.error("there was an error", error);
-      });
+    .post(url, student)
+    .then((response) => {
+      if(response&&response.data){
+     console.log(response.data);
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      if(response.data.student.UserType==='student'){
+        navigate('/StudentDash');
+      }
+      else if(response.data.student.UserType==='admin'){
+        navigate('/StudentDash');
+      }
+      else{navigate('/')}}
+      
+    })
+    .catch((error) => {
+      console.error("There was an error", error);
+        if (error.response && error.response.status === 401) {
+        alert("Wrong email or password. Please try again.");
+      } else {
+        alert("An error occurred. Please try again later.");
+      }
+    });
   };
     
   const styleContainer={

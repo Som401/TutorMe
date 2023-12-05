@@ -90,7 +90,7 @@ const MakeAppointment = ({student}) => {
             />
             <i className="bx bxs-user"></i>
           </div>
-
+              
           <div className="input-box">
             <label htmlFor="dateOfSession">Date of Session:</label>
             <input
