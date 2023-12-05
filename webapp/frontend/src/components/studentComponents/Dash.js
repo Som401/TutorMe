@@ -2,7 +2,7 @@ import image1 from "../../assets/image1.jpg";
 import Card from "react-bootstrap/Card";
 import Calendar from "../home/Calendar";
 import DateTime from "../home/DateTime";
-function Dash({Appointment,Requests}) {
+function Dash({Appointment,Requests,DoneAppointment}) {
   const styleContainer = {
     backgroundColor: "white",
     minHeight: "100vh",
@@ -41,31 +41,37 @@ function Dash({Appointment,Requests}) {
     display: "flex",
     flexDirection: "row",
     gap: "2%",
-    marginBottom: "4%",
+    marginBottom: "4%"
   };
   const styleBox = {
     border: "#E6E5E1",
     backgroundColor: "#E6E5E1",
     width: "100%",
     height: "100%",
+    minHeight:"10vh",
+    position: "relative" 
   };
   const styleBox2 = {
     border: "#E0E1E5",
     backgroundColor: "#E0E1E5",
     width: "100%",
     height: "100%",
+    minHeight:"10vh",
+    position: "relative" 
   };
   const styleBox3 = {
     border: "#BFBCC7",
     backgroundColor: "#BFBCC7",
     width: "100%",
     height: "100%",
+    minHeight:"10vh",
+    position: "relative" 
   };
   const styleIcon = {
     position: "absolute",
     width: "10%",
     right: "0%",
-    bottom: "0%",
+    top: "5px",
   };
   const d = new Date();
   return (
@@ -101,11 +107,7 @@ function Dash({Appointment,Requests}) {
         </Card>
         <Card style={styleBox3}>
           <Card.Body>
-            <Card.Title>:</Card.Title>
-            <Card.Text style={{ fontSize: "18px" }}>
-              {//tutor.nb_ex_student
-              }
-            </Card.Text>
+            <Card.Title>Done appointments: {DoneAppointment.length}</Card.Title>
             <div style={{ position: "relative" }}>
               <img
                 style={styleIcon}

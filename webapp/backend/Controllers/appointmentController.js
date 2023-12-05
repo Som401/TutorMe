@@ -1,6 +1,9 @@
 const { sequelize } = require("../configuration/connectDb");
 require("dotenv").config();
 const Appointment = require("../models/Appointment");
+const Student = require("../models/Student");
+const Tutor = require("../models/Tutor");
+
 const { QueryTypes,Sequelize } = require("sequelize");
 
 const getAppointmentsbyTutorId = async (request, response) => {
@@ -60,23 +63,52 @@ const getExstudents = async (request, response) => {
   }
 };
 
+const getDoneAppointments = async (request, response) => {
+  const { studentID } = request.params; 
 
+  try {
+    const appointments = await sequelize.query(
+      'SELECT * FROM appointments WHERE State = :state AND StudentID = :studentID', 
+      {
+        replacements: { state: 'done', studentID: studentID }, 
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    response.status(200).json({ appointments });
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    response.status(500).json({ msg: "Error on getting appointments", error: error.message });
+  }
+};
 
 const postAppointment = async (request, response) => {
   try {
-    const { time, location, subjectID, tutorID, studentID, date } = request.body;
+    const { time, location, tutorName, studentName, date } = request.body;
 
     const [hours, minutes] = time.split(':').map(Number); 
     const [year, month, day] = date.split('-').map(Number);
     const combinedDate = new Date(year, month - 1, day, hours+1, minutes); 
-
+    const student = await Student.findOne({
+      where: {
+        Name: studentName,
+      },
+    });
+    const student2 = await Student.findOne({
+      where: {
+        Name: tutorName,
+      },
+    });
+    const tutor = await Tutor.findOne({
+      where: {
+        StudentID: student2.StudentID,
+      },
+    });
     const newAppointment = await Appointment.create({
       State: "pending",
-      Time: time,
       Location: location,
-      SubjectID: subjectID,
-      TutorID: tutorID,
-      StudentID: studentID,
+      TutorID: tutor.TutorID,
+      StudentID: student.StudentID,
       Date: combinedDate 
     });
 
@@ -126,7 +158,7 @@ const putAppointmentsAuto = async (request, response) => {
       return await appointment.save();
     });
 
-    await Promise.all(updatePromises); // Wait for all appointments to be updated
+    await Promise.all(updatePromises); 
 
     console.log('Appointments updated successfully');
     return response.status(200).json({ message: 'Appointments updated successfully' ,currentDate,appointmentsToUpdate });
@@ -137,4 +169,4 @@ const putAppointmentsAuto = async (request, response) => {
 };
 
 
-  module.exports={getAppointmentsbyTutorId,postAppointment,updateAppointmentState,getExstudents,getAppointmentsbyStudentId,putAppointmentsAuto};
+  module.exports={getAppointmentsbyTutorId,postAppointment,updateAppointmentState,getExstudents,getAppointmentsbyStudentId,putAppointmentsAuto,getDoneAppointments};

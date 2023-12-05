@@ -1,19 +1,38 @@
 import React, { useState } from 'react';
 import TutorData from '../tutorComponents/TutorData.js'; 
 import TutorCard from '../tutorComponents/TutorCard';
+import { useEffect } from 'react';
 import '../tutorComponents/TutorCard.css';
 import './List.css';
+import axios from "axios";
 
-function List(props) {
+function List({subjects,input}) {
   const [selectedSubject, setSelectedSubject] = useState('');
+  const [tutors, setTutors] = useState([]);
+  console.log(tutors)
+  useEffect(() => {
+    const fetchData = async () => {
+      
+        try {
+          const tutor = await axios.get(
+            `http://localhost:8080/api/tutors`);
+            setTutors(tutor.data.tutors);
+        } catch (error) {
+          console.error("error on getting tutors:", error);
+        }
+      }
+      fetchData();
+    },[]
+  );
 
-  const uniqueSubjects = [...new Set(TutorData.map((el) => el.subject))];
-
+  const uniqueSubjects = [...new Set(subjects.map((el) => el.SubjectName))];
+  console.log(uniqueSubjects)
+  
   const filteredSubjects = uniqueSubjects.filter((subject) => {
-    if (props.input === '') {
+    if (input === '') {
       return true; 
     } else {
-      return subject.toLowerCase().includes(props.input.toLowerCase());
+      return subject.toLowerCase().includes(input.toLowerCase());
     }
   });
 
@@ -32,8 +51,8 @@ function List(props) {
       </ul>
 
       <div className="tutor-card-container">
-        {TutorData.filter((tutor) => tutor.subject.toLowerCase() === selectedSubject.toLowerCase()).map((tutor) => (
-          <TutorCard key={tutor.id} tutor={tutor} />
+        {tutors.filter((tutor) => tutor.SubjectName.toLowerCase() === selectedSubject.toLowerCase()).map((tutor) => (
+          <TutorCard key={tutor.TutorID} tutor={tutor} />
         ))}
       </div>
     </div>

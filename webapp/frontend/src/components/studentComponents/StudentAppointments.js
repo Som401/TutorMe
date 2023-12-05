@@ -66,11 +66,10 @@ function Appointments() {
             `http://localhost:8080/api/tutors/${currentStudentId}`
           );
           setTutorID(tutorResponse.data.TutorID);
-          const currentTutorId=tutorID;
-          const tutorAppointments = await axios.get(
-            `http://localhost:8080/api/appointments/approved/${currentTutorId}`
+          const studentAppointments = await axios.get(
+            `http://localhost:8080/api/studentappointments/approved/${currentStudentId}`
           );
-          setAppointment(tutorAppointments.data.appointments);
+          setAppointment(studentAppointments.data.appointments);
         } catch (error) {
           console.error("Token decoding or fetching data error:", error);
         }
@@ -84,7 +83,7 @@ function Appointments() {
   return (
     <div style={{ display: "flex" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar student={student} />
+        <Sidebar student={student} tutorID={tutorID}/>
       </div>
       <div style={styleContainer2}>
         <div

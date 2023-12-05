@@ -14,9 +14,6 @@ const Appointment = sequelize.define('Appointments', {
     State: {
         type: DataTypes.STRING,
     },
-    Time: {
-        type: DataTypes.STRING,
-    },
     Location: {
         type: DataTypes.STRING,
     },

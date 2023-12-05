@@ -8,7 +8,8 @@ export const StudentDash = () => {
   const [student, setStudent] = useState({});
   const [tutorID, setTutorID] = useState(-1);
   const [Appointment, setAppointment] = useState([]);
-  const [Requests, setRequests] = useState([]);
+  const [DoneAppointment, setDoneAppointment] = useState([]);
+  const [Requests, setRequest] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,14 +30,18 @@ export const StudentDash = () => {
 
           const tutorResponse = await axios.get(`http://localhost:8080/api/tutors/${currentStudentId}`);
           setTutorID(tutorResponse.data.TutorID);
-          const tutorAppointments = await axios.get(
+          const studentAppointments = await axios.get(
             `http://localhost:8080/api/studentappointments/approved/${currentStudentId}`
           );
-          setAppointment(tutorAppointments.data.appointments);
-          const tutorRequests = await axios.get(
+          setAppointment(studentAppointments.data.appointments);
+          const studentRequests = await axios.get(
             `http://localhost:8080/api/studentappointments/pending/${currentStudentId}`
           );
-          setRequests(tutorRequests.data.appointments);
+          setRequest(studentRequests.data.appointments);
+          const DoneAppointments = await axios.get(
+            `http://localhost:8080/api/studentappointments/${currentStudentId}`
+          );
+          setDoneAppointment(DoneAppointments.data.appointments);
         } catch (error) {
           console.error('Token decoding or fetching data error:', error);
         }
@@ -53,7 +58,7 @@ export const StudentDash = () => {
           <Sidebar student={student} tutorID={tutorID}  />
         </div>
         <div>
-          <Dash student={student} Appointment={Appointment} Requests={Requests}/>
+          <Dash student={student} Appointment={Appointment} Requests={Requests} DoneAppointment={DoneAppointment}/>
         </div>
       </div>
   );

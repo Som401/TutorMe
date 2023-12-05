@@ -46,7 +46,7 @@ const RateTutor = ({student}) => {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar student={student}   />
+        <Sidebar student={student}/>
       </div>
       <div style={styleContainer2}>
         <div

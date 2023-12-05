@@ -8,9 +8,10 @@ const { QueryTypes, where } = require("sequelize");
 
 const getTutors = async (request, response) => {
   try {
-    const tutors = await sequelize.query("SELECT * FROM tutors", {
-      type: QueryTypes.SELECT,
-    });
+    const tutors = await sequelize.query(
+      'SELECT * FROM subjects NATURAL JOIN tutors NATURAL JOIN students',
+      { type: sequelize.QueryTypes.SELECT }
+    );
     response.status(200).json({ tutors });
   } catch (error) {
     console.error("Error fetching tutors:", error);
