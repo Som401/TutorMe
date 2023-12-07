@@ -39,15 +39,17 @@ const MakeAppointment = () => {
     };
 
     fetchData();
-    console.log(student, tutorID);
+    console.log(student, tutorID,student.Email);
   }, [tutorID]);
+
   const [formData, setFormData] = useState({
-    studentName: "",
-    tutorName: "",
+    studentEmail: "",
+    tutorEmail: "",
     date: "",
     location: "",
     time: "",
   });
+  console.log(formData,student.Email,formData.studentEmail);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -58,18 +60,14 @@ const MakeAppointment = () => {
   const handledateChange = (e) => {
     const { name, value } = e.target;
 
-    // Convert the selectedDate string to a Date object
     const dateObject = new Date(value);
 
-    // Extract year, month, and day from the Date object
     const year = dateObject.getFullYear();
     const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 as getMonth() returns zero-based month
     const day = dateObject.getDate().toString().padStart(2, '0'); // Ensure two-digit day format
 
-    // Construct the string in the format year/month/day
     const formattedDate = `${year}-${month}-${day}`;
 
-    // Update the state with the formatted date
     setFormData((prevData) => ({
       ...prevData,
       [name]: formattedDate,
@@ -119,28 +117,28 @@ const MakeAppointment = () => {
             </h2>
 
             <div className="input-box">
-              <label htmlFor="studentName"> Name</label>
+              <label htmlFor="studentName">Your Email</label>
               <input
                 type="text"
-                placeholder="student Name"
-                name="studentName"
-                id="studentName"
+                placeholder="Your Email"
+                name="studentEmail"
+                id="studentEmail"
                 className="input"
-                value={formData.studentName}
+                value={formData.studentEmail}
                 onChange={handleChange}
               />
               <i className="bx bxs-user"></i>
             </div>
 
             <div className="input-box">
-              <label htmlFor="tutorName">Tutor Name:</label>
+              <label htmlFor="tutorName">Tutor Email:</label>
               <input
                 type="text"
-                placeholder="Tutor Name"
-                name="tutorName"
-                id="tutorName"
+                placeholder="Tutor Email"
+                name="tutorEmail"
+                id="tutorEmail"
                 className="input"
-                value={formData.tutorName}
+                value={formData.tutorEmail}
                 onChange={handleChange}
               />
               <i className="bx bxs-user"></i>

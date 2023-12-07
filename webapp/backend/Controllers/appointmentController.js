@@ -84,19 +84,19 @@ const getDoneAppointments = async (request, response) => {
 
 const postAppointment = async (request, response) => {
   try {
-    const { time, location, tutorName, studentName, date } = request.body;
+    const { time, location, tutorEmail, studentEmail, date } = request.body;
 
     const [hours, minutes] = time.split(':').map(Number); 
     const [year, month, day] = date.split('-').map(Number);
     const combinedDate = new Date(year, month - 1, day, hours+1, minutes); 
     const student = await Student.findOne({
       where: {
-        Name: studentName,
+        Email: studentEmail,
       },
     });
     const student2 = await Student.findOne({
       where: {
-        Name: tutorName,
+        Email: tutorEmail,
       },
     });
     const tutor = await Tutor.findOne({

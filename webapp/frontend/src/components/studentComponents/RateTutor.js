@@ -1,15 +1,88 @@
 import "./MakeAppointment.css";
 import React, { useState } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { useEffect } from "react";
 import Sidebar from "./Sidebar";
 
-const RateTutor = ({student}) => {
+const RateTutor = () => {
   const [formData, setFormData] = useState({
-    tutorName: "",
-    subject: "",
-    dateOfSession: "",
-    placeOfSession: "",
+    tutorEmail: "",
+    studentName: "",
     rating: 1,
   });
+
+  const [student, setStudent] = useState({});
+  const [tutorID, setTutorID] = useState(-1);
+  console.log(student, tutorID);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          const currentStudentId = decodedToken.StudentID;
+
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+
+          const studentResponse = await axios.get(
+            `http://localhost:8080/api/students/${currentStudentId}`,
+            { headers }
+          );
+          setStudent(studentResponse.data.student);
+
+          const tutorResponse = await axios.get(
+            `http://localhost:8080/api/tutors/${currentStudentId}`
+          );
+          setTutorID(tutorResponse.data.TutorID);
+        } catch (error) {
+          console.error("Token decoding or fetching data error:", error);
+        }
+      }
+    };
+
+    fetchData();
+    console.log(student, tutorID);
+  }, [tutorID]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { rating, tutorEmail, studentName } = formData;
+
+    const ratingExists = await axios.get(`http://localhost:8080/api/ratings/${tutorEmail}/${studentName}`);
+
+  if (ratingExists.data) {
+    const existingRatingId = ratingExists.data.id; 
+    const updateUrl = `http://localhost:8080/api/ratings/${existingRatingId}`;
+    axios
+      .put(updateUrl, { rating })
+      .then((response) => {
+        console.log(response.data);
+        alert(response.data.msg);
+        console.log(formData);
+      })
+      .catch((error) => {
+        alert(error.response.data.msg);
+        console.error("There was an error", error);
+      });
+  } else {
+    const createUrl = "http://localhost:8080/api/ratings";
+    axios
+      .post(createUrl, formData)
+      .then((response) => {
+        console.log(response.data);
+        alert(response.data.msg);
+        console.log(formData);
+      })
+      .catch((error) => {
+        alert(error.response.data.msg);
+        console.error("There was an error", error);
+      });
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,12 +99,6 @@ const RateTutor = ({student}) => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    alert("Form submitted!");
-  };
-
   const styleContainer2 = {
     backgroundColor: "white",
     minHeight: "100vh",
@@ -46,7 +113,7 @@ const RateTutor = ({student}) => {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar student={student}/>
+        <Sidebar student={student} tutorID={tutorID} />
       </div>
       <div style={styleContainer2}>
         <div
@@ -60,60 +127,30 @@ const RateTutor = ({student}) => {
                 <span>Give us your feedback</span>
               </h2>
 
+              <div className="input-box">
+                <label htmlFor="studentName"> Name</label>
+                <input
+                  type="text"
+                  placeholder="student Name"
+                  name="studentName"
+                  id="studentName"
+                  className="input"
+                  value={formData.studentName}
+                  onChange={handleChange}
+                />
+                <i className="bx bxs-user"></i>
+              </div>
+
               {/* Tutor Name */}
               <div className="input-box">
-                <label htmlFor="tutorName">Tutor Name:</label>
+                <label htmlFor="tutorName">Tutor Email:</label>
                 <input
                   type="text"
-                  placeholder="Tutor Name"
-                  name="tutorName"
-                  id="tutorName"
+                  placeholder="Tutor Email"
+                  name="tutorEmail"
+                  id="tutorEmail"
                   className="input"
-                  value={formData.tutorName}
-                  onChange={handleChange}
-                />
-                <i className="bx bxs-user"></i>
-              </div>
-
-              {/* Subject */}
-              <div className="input-box">
-                <label htmlFor="subject">Subject:</label>
-                <input
-                  type="text"
-                  placeholder="Subject"
-                  name="subject"
-                  id="subject"
-                  className="input"
-                  value={formData.subject}
-                  onChange={handleChange}
-                />
-                <i className="bx bxs-user"></i>
-              </div>
-
-              {/* Date of Session */}
-              <div className="input-box">
-                <label htmlFor="dateOfSession">Date of Session:</label>
-                <input
-                  type="date"
-                  name="dateOfSession"
-                  id="dateOfSession"
-                  className="input"
-                  value={formData.dateOfSession}
-                  onChange={handleChange}
-                />
-                <i className="bx bxs-user"></i>
-              </div>
-
-              {/* Place of Session */}
-              <div className="input-box">
-                <label htmlFor="placeOfSession">Place of Session:</label>
-                <input
-                  type="text"
-                  placeholder="Place of Session"
-                  name="placeOfSession"
-                  id="placeOfSession"
-                  className="input"
-                  value={formData.placeOfSession}
+                  value={formData.tutorEmail}
                   onChange={handleChange}
                 />
                 <i className="bx bxs-user"></i>

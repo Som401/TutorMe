@@ -12,12 +12,28 @@ import axios from "axios";
 function TutorCard({ tutor }) {
 
   const [DoneAppointment, setDoneAppointment] = useState([]);
+  const [Rating,setRating]=useState([]);
+  const copyEmailToClipboard = () => {
+    const tutorEmail = tutor.Email; // Replace 'email' with the key for the tutor's email in your data
 
+    navigator.clipboard.writeText(tutorEmail)
+      .then(() => {
+        alert(`Tutor's email (${tutorEmail}) copied to clipboard!`);
+      })
+      .catch((error) => {
+        console.error('Error copying email to clipboard:', error);
+        alert('Failed to copy email to clipboard.');
+      });
+  };
   useEffect(() => {
     const fetchData = async () => {
         try {
          
           const DoneAppointments = await axios.get(
+            `http://localhost:8080/api/appointments/${tutor.TutorID}`
+          );
+          setDoneAppointment(DoneAppointments.data.appointments);
+          const ratings = await axios.get(
             `http://localhost:8080/api/appointments/${tutor.TutorID}`
           );
           setDoneAppointment(DoneAppointments.data.appointments);
@@ -57,7 +73,7 @@ function TutorCard({ tutor }) {
       </ListGroup>
 
       <Card.Body className='duration'>
-        <Card.Link href="#" className='req'>Request Appointment</Card.Link>
+        <Card.Link href="#" onClick={copyEmailToClipboard} className='req'>Copy Tutor Email</Card.Link>
       </Card.Body>
 
     </Card>

@@ -120,11 +120,11 @@ const styleButton={
     <Form style={styleForm} onSubmit={handlesubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail" style={styleLabel}>
         <Form.Label style={styleLabel}></Form.Label><br/>
-        <Form.Control type="email" name="Email" placeholder='Email' required value={student.email} onChange={handlechange} style={styleinput} />
+        <Form.Control type="email" name="Email" placeholder='Email' required value={student.Email} onChange={handlechange} style={styleinput} />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicEmail" style={styleLabel}>
         <Form.Label style={styleLabel}></Form.Label><br/>
-        <Form.Control type="password" name="Password" placeholder='Password' required value={student.password} onChange={handlechange} style={styleinput} />
+        <Form.Control type="password" name="Password" placeholder='Password' required value={student.Password} onChange={handlechange} style={styleinput} />
       </Form.Group>
       
       <div style={{position:"absolute",width:"80%",bottom:"1%"}}>

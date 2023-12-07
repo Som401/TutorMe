@@ -14,10 +14,6 @@ const Application = sequelize.define('Applications', {
         type: DataTypes.FLOAT,
         allowNull: false
     },
-    SendingDate: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
     Result: {
         type: DataTypes.STRING,
     },

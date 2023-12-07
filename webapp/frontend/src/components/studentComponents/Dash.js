@@ -48,7 +48,7 @@ function Dash({Appointment,Requests,DoneAppointment}) {
     backgroundColor: "#E6E5E1",
     width: "100%",
     height: "100%",
-    minHeight:"10vh",
+    minHeight:"12vh",
     position: "relative" 
   };
   const styleBox2 = {
@@ -56,7 +56,7 @@ function Dash({Appointment,Requests,DoneAppointment}) {
     backgroundColor: "#E0E1E5",
     width: "100%",
     height: "100%",
-    minHeight:"10vh",
+    minHeight:"12vh",
     position: "relative" 
   };
   const styleBox3 = {
@@ -64,7 +64,7 @@ function Dash({Appointment,Requests,DoneAppointment}) {
     backgroundColor: "#BFBCC7",
     width: "100%",
     height: "100%",
-    minHeight:"10vh",
+    minHeight:"12vh",
     position: "relative" 
   };
   const styleIcon = {
