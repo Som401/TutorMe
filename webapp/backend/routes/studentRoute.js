@@ -1,5 +1,6 @@
 const express = require("express");
 const studentRoute = express.Router();
+const upload = require('../multerConfigutaion/multerConfiguration'); 
 
 const {
   postStudent,
@@ -8,11 +9,13 @@ const {
   putStudent,
   deleteStudent,
   login,
+  updateUserProfileImagePath,
 } = require("../Controllers/studentController");
 
 const isAuth = require("../middleware/isAuth")
 const isAutho = require("../middleware/isAutho")
 
+studentRoute.post("/students/uploads/:StudentID", upload.single('file'),updateUserProfileImagePath);
 studentRoute.get("/students", getStudents);
 studentRoute.post("/students", postStudent);
 studentRoute.post("/login", login);

@@ -1,19 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./MakeAppointment";
 import Sidebar from "./Sidebar";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
-const Application = ({student}) => {
-  const [name, setName] = useState("");
-  const [subject, setSubject] = useState("");
+const Application = () => {
+  const [email, setEmail] = useState("");
+  const [subjectName, setSubject] = useState("");
   const [subjectGrade, setSubjectGrade] = useState("");
+  const [student, setStudent] = useState({});
+  const [tutorID, setTutorID] = useState(-1);
+  const [application, setApplication] = useState([]);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+          const currentStudentId = decodedToken.StudentID;
+
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+
+          axios.put("http://localhost:8080/api/appointments");
+
+          const studentResponse = await axios.get(
+            `http://localhost:8080/api/students/${currentStudentId}`,
+            { headers }
+          );
+          setStudent(studentResponse.data.student);
+
+          const tutorResponse = await axios.get(
+            `http://localhost:8080/api/tutors/${currentStudentId}`
+          );
+          setTutorID(tutorResponse.data.TutorID);
+          const previousApplication = await axios.get(
+            `http://localhost:8080/api/applications/${currentStudentId}`
+          );
+          if (previousApplication.data.applications.length > 0) {
+            const recentApplication = previousApplication.data.applications[0];
+            if (recentApplication.Result === "Pending" || recentApplication.Result === "denied") {
+              alert(`Your recent application status: ${recentApplication.Result}`);
+            }
+          }
+        } catch (error) {
+          console.error("Token decoding or fetching data error:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Name:", name);
-    console.log("Subject:", subject);
-    console.log("Subject Grade:", subjectGrade);
+
+    try {
+      const previousApplication = await axios.get(
+        `http://localhost:8080/api/applications/${student.StudentID}`
+      );
+      console.log(previousApplication);
+
+      if (previousApplication.data.applications.length > 0) {
+        await axios.delete(
+          `http://localhost:8080/api/applications/${student.StudentID}`
+        );
+      }
+
+      await axios.post("http://localhost:8080/api/application", {
+        email: email,
+        subjectName: subjectName,
+        subjectGrade: subjectGrade,
+      });
+
+      setEmail("");
+      setSubject("");
+      setSubjectGrade("");
+
+      window.alert("Application submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting application:", error);
+      window.alert("Failed to submit the application. Please try again.");
+    }
   };
+
   const styleContainer2 = {
     backgroundColor: "white",
     minHeight: "100vh",
@@ -28,7 +100,7 @@ const Application = ({student}) => {
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <div style={{ marginRight: "16%" }}>
-        <Sidebar student={student} />
+        <Sidebar student={student} tutorID={tutorID} />
       </div>
       <div style={styleContainer2}>
         <div
@@ -44,14 +116,14 @@ const Application = ({student}) => {
 
               <div className="input-box">
                 <label className="sub_title" htmlFor="studentName">
-                  Name of student
+                  Your Email
                 </label>
                 <input
-                  placeholder="Enter your name"
+                  placeholder="Enter your Email"
                   className="form_style"
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <i className="bx bxs-user"></i>
               </div>
@@ -64,7 +136,7 @@ const Application = ({student}) => {
                   placeholder="Enter the subject name"
                   className="form_style"
                   type="text"
-                  value={subject}
+                  value={subjectName}
                   onChange={(e) => setSubject(e.target.value)}
                 />
                 <i className="bx bxs-user"></i>

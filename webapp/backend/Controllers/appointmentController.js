@@ -44,6 +44,26 @@ const getAppointmentsbyStudentId = async (request, response) => {
   }
 };
 
+const getAppointmentsByStudentId2 = async (request, response) => {
+  const { studentID } = request.params;
+
+  try {
+    const appointments = await sequelize.query(
+      'SELECT * FROM appointments WHERE State IN (:pending, :denied) AND StudentID = :studentID ORDER BY Date ASC',
+      {
+        replacements: { pending: 'pending', denied: 'denied', studentID: studentID },
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    response.status(200).json({ appointments });
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    response.status(500).json({ msg: "Error on getting appointments", error: error.message });
+  }
+};
+
+
 const getExstudents = async (request, response) => {
   const { tutorID } = request.params; 
 
@@ -169,4 +189,4 @@ const putAppointmentsAuto = async (request, response) => {
 };
 
 
-  module.exports={getAppointmentsbyTutorId,postAppointment,updateAppointmentState,getExstudents,getAppointmentsbyStudentId,putAppointmentsAuto,getDoneAppointments};
+  module.exports={getAppointmentsbyTutorId,getAppointmentsByStudentId2,postAppointment,updateAppointmentState,getExstudents,getAppointmentsbyStudentId,putAppointmentsAuto,getDoneAppointments};

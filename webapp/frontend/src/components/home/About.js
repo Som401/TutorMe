@@ -1,7 +1,6 @@
 import React from 'react';
 import NavBar from './NavBar';
 import Footer from './Footer';
-import Team from './Team';
 
 const About = () => {
   return (
@@ -43,7 +42,6 @@ const About = () => {
             />
         </div>
       </div>
-    <Team/>
     <Footer/>
     </div>
   );

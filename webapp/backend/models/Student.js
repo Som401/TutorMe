@@ -23,7 +23,7 @@ const Student = sequelize.define(
       allowNull: false,
     },
     Photo: {
-      type: DataTypes.BLOB("long"),
+      type: DataTypes.STRING,
     },
     UserType: {
       type: DataTypes.ENUM("student", "admin"),

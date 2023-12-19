@@ -1,4 +1,6 @@
 import React from "react";
+import NavBar from './NavBar';
+import Footer from './Footer';
 import "./Team.css";
 
 const Team = () => {
@@ -12,7 +14,9 @@ const Team = () => {
   ];
 
   return (
-    <div style={{display:"flex",flexDirection:"column"}}>
+    <div>
+    <NavBar/>
+    <div style={{display:"flex",flexDirection:"column", alignItems: "center", padding: '60px',minHeight:"100vh" }}>
       <div
         style={{
           fontSize: "90px",
@@ -35,7 +39,8 @@ const Team = () => {
         </div>
         </div>
       </div>
-    
+      <Footer/>
+      </div>
   );
 };
 

@@ -46,7 +46,7 @@ function Sidebar({ student, tutorID }) {
           <Navbar.Brand href="#home">Hello, {student.Name}!</Navbar.Brand>
           <Image
             style={styleImage}
-            src="https://cdn-icons-png.flaticon.com/512/3449/3449633.png"
+            src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/c748bb40780039.578d2ae7b3f4e.jpg"
             roundedCircle
           />
           <Nav

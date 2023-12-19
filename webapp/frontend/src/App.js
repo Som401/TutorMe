@@ -1,5 +1,6 @@
 import Login from "./components/home/Login";
 import Home from "./components/home/Home";
+import Team from "./components/home/Team";
 import Register from "./components/home/Register";
 import TutorDash from "./components/tutorComponents/TutorDash";
 import Requests from "./components/tutorComponents/Requests";
@@ -30,6 +31,8 @@ function App() {
           <Route path="/Home" element={<Home />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/About" element={<About />} />
+          <Route path="/Team" element={<Team />} />
+
           <Route
             path="/Appointments"
             element={<Appointments/>}

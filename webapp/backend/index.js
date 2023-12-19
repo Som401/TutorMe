@@ -30,6 +30,7 @@ app.listen(port, (er) => {
     console.log(`server is running on port ${port}`);
   }
 });
+app.use('/uploads', express.static('uploads'));
 app.use("/api", studentRoute);
 app.use("/api", subjectRoute);
 app.use("/api", tutorRoute);

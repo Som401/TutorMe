@@ -8,10 +8,12 @@ const {
     getExstudents,
     getAppointmentsbyStudentId,
     getDoneAppointments,
-    putAppointmentsAuto
+    putAppointmentsAuto,
+    getAppointmentsByStudentId2
 } = require("../Controllers/appointmentController");
 
 appointmentRoute.get("/appointments/:state/:tutorID", getAppointmentsbyTutorId);
+appointmentRoute.get("/appointments2/:studentID", getAppointmentsByStudentId2);
 appointmentRoute.get("/studentappointments/:state/:studentID", getAppointmentsbyStudentId);
 appointmentRoute.post("/appointments", postAppointment);
 appointmentRoute.put("/appointments/:appointmentID/:state", updateAppointmentState);

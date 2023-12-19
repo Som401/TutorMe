@@ -8,8 +8,8 @@ import Sidebar from "./Sidebar";
 const RateTutor = () => {
   const [formData, setFormData] = useState({
     tutorEmail: "",
-    studentName: "",
-    rating: 1,
+    studentEmail: "",
+    rating: 0,
   });
 
   const [student, setStudent] = useState({});
@@ -50,12 +50,13 @@ const RateTutor = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { rating, tutorEmail, studentName } = formData;
+    const { rating, tutorEmail, studentEmail } = formData;
 
-    const ratingExists = await axios.get(`http://localhost:8080/api/ratings/${tutorEmail}/${studentName}`);
+    const ratingExists = await axios.get(`http://localhost:8080/api/ratings/${tutorEmail}/${studentEmail}`);
 
   if (ratingExists.data) {
-    const existingRatingId = ratingExists.data.id; 
+    console.log(ratingExists.data,`http://localhost:8080/api/ratings/${tutorEmail}/${studentEmail}`)
+    const existingRatingId = ratingExists.data.rateID; 
     const updateUrl = `http://localhost:8080/api/ratings/${existingRatingId}`;
     axios
       .put(updateUrl, { rating })
@@ -128,14 +129,14 @@ const RateTutor = () => {
               </h2>
 
               <div className="input-box">
-                <label htmlFor="studentName"> Name</label>
+                <label htmlFor="studentName">Your Email</label>
                 <input
                   type="text"
-                  placeholder="student Name"
-                  name="studentName"
-                  id="studentName"
+                  placeholder="Your Email"
+                  name="studentEmail"
+                  id="studentEmail"
                   className="input"
-                  value={formData.studentName}
+                  value={formData.studentEmail}
                   onChange={handleChange}
                 />
                 <i className="bx bxs-user"></i>
@@ -159,7 +160,7 @@ const RateTutor = () => {
               {/* Rating */}
               <div className="rating">
                 <label>Rating:</label>
-                {[5, 4, 3, 2, 1].map((value) => (
+                {[1,2,3,4,5].map((value) => (
                   <React.Fragment key={value}>
                     <input
                       value={value}

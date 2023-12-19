@@ -8,8 +8,6 @@ import { jwtDecode } from "jwt-decode"; // Ensure correct import
 
 function SearchBar() {
   const [inputText, setInputText] = useState("");
-  
-  const [Tutors, setTutors] = useState([]);
   const [Subjects, setSubjects] = useState([]);
   const [student, setStudent] = useState({});
   const [tutorID, setTutorID] = useState(-1);

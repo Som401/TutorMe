@@ -31,7 +31,9 @@ function NavBar() {
             <Nav.Link>
              <Link to="/About" style={styleBar}>About</Link>
             </Nav.Link>
-           
+            <Nav.Link>
+             <Link to="/Team" style={styleBar}>Our Team</Link>
+            </Nav.Link>
             </Nav>    
             <button class="button-17" role="button" onClick={login}>Login</button>       
           </Container>

@@ -33,10 +33,11 @@ function TutorCard({ tutor }) {
             `http://localhost:8080/api/appointments/${tutor.TutorID}`
           );
           setDoneAppointment(DoneAppointments.data.appointments);
-          const ratings = await axios.get(
-            `http://localhost:8080/api/appointments/${tutor.TutorID}`
+          const rate = await axios.get(
+            `http://localhost:8080/api/ratings/${tutor.TutorID}`
           );
-          setDoneAppointment(DoneAppointments.data.appointments);
+          setRating(rate.data.AvgRate);
+          console.log(Rating)
         } catch (error) {
           console.error("Token decoding or fetching data error:", error);
         }
@@ -46,10 +47,23 @@ function TutorCard({ tutor }) {
 
 
   const image= "https://mir-s3-cdn-cf.behance.net/project_modules/hd/c748bb40780039.578d2ae7b3f4e.jpg";
-  const stars=[...Array(5)].map((item,i) => {
-    return (<sapn style={{color:tutor.rating>=i? "gold": "gray"}}>☆</sapn>)
-  })
+  const generateStars = (decimalPart) => {
+    const stars = [];
+    const totalStars = 5;
 
+
+    for (let i = 1; i <= totalStars; i++) {
+      stars.push(
+        <span style={{ color: i <= decimalPart ? "gold" : "gray" }}>☆</span>
+      );
+    }
+
+    return stars;
+  };
+
+  const decimalPart = Math.floor(Rating);
+  const stars = generateStars(decimalPart);
+  console.log(decimalPart)
   return (
     <div class='tutorcard'>
     <Card className='main'>

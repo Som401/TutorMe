@@ -106,6 +106,21 @@ const putStudent = async (req, res) => {
       .json({ msg: "Error on updating student", error: error.message });
   }
 };
+const updateUserProfileImagePath = async (req, res) => {
+  try {
+    const { id } = req.params.StudentID; 
+    const { imagePath } = req.body; 
+    const userProfile = await Student.findOne({ where: { StudentID: id } });
+    if (!userProfile) {
+      return res.status(404).json({ msg: 'User profile not found' });
+    }
+    userProfile.Photo = imagePath; 
+    await userProfile.save();
+    res.status(200).json({ msg: 'User profile image path updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 const deleteStudent = async (req, res) => {
   const id = req.params.StudentID;
   try {
@@ -124,11 +139,14 @@ const deleteStudent = async (req, res) => {
       .json({ msg: "Error on deleting student", error: error.message });
   }
 };
+
+
 module.exports = {
   postStudent,
   getStudents,
   getOneStudent,
   putStudent,
   deleteStudent,
-  login
+  login,
+  updateUserProfileImagePath
 };
