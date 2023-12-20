@@ -35,14 +35,13 @@ const styleContainer2 = {
 const styleBar = {
   paddingRight: "5%",
   borderRight: "1px solid white",
-//  marginLeft: "5%",
- // marginRight: "9%",
+  marginLeft: "5%",
+  marginRight: "9%",
 };
 function Notifications() {
   const [student, setStudent] = useState({});
   const [tutorID, setTutorID] = useState(-1);
-  const [Appointment, setAppointment] = useState([]);
-  const [Requests, setRequest] = useState([]);
+  const [Request, setRequest] = useState([]);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -55,9 +54,7 @@ function Notifications() {
           const headers = {
             Authorization: `Bearer ${token}`,
           };
-  
-          axios.put("http://localhost:8080/api/appointments");
-  
+    
           const studentResponse = await axios.get(
             `http://localhost:8080/api/students/${currentStudentId}`,
             { headers }
@@ -68,14 +65,10 @@ function Notifications() {
             `http://localhost:8080/api/tutors/${currentStudentId}`
           );
           setTutorID(tutorResponse.data.TutorID);
-          const studentAppointments = await axios.get(
-            `http://localhost:8080/api/appointments2/${currentStudentId}`
+          const studentRequestss = await axios.get(
+            `http://localhost:8080/api/Requests/${currentStudentId}`
           );
-          setAppointment(studentAppointments.data.appointments);
-          const studentRequests = await axios.get(
-            `http://localhost:8080/api/studentappointments/pending/${currentStudentId}`
-          );
-          setRequest(studentRequests.data.appointments);
+          setRequest(studentRequestss.data.appointments);
         } catch (error) {
           console.error("Token decoding or fetching data error:", error);
         }
@@ -93,7 +86,7 @@ function Notifications() {
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          {Appointment && Appointment.length > 0 && (
+          {Request && Request.length > 0 && (
             <Navbar
               bg="dark"
               data-bs-theme="dark"
@@ -101,29 +94,30 @@ function Notifications() {
             >
               <Container>
                 <div
-                  style={{
+                 style={{
                     display: "flex",
-                    width: "100%",
-                    justifyContent: "center",
-                    gap: "100px"
+                    width: "80%",
+                    justifyContent: "space-between",
+                    margin: "auto",
+                    gap:"40px"
                   }}
                 >
-                  <Navbar.Brand style={styleBar}>Date</Navbar.Brand>
-                  <Navbar.Brand style={styleBar}>Time</Navbar.Brand>
-                  <Navbar.Brand style={styleBar}>Room</Navbar.Brand>
-                  <Navbar.Brand style={styleBar}>State</Navbar.Brand>
+                  <Navbar.Brand style={ {paddingRight: "8%",borderRight: "1px solid white",marginLeft: "2%",marginRight: "6%"}}>Date</Navbar.Brand>
+                  <Navbar.Brand style={{paddingRight: "8%",borderRight: "1px solid white",marginLeft: "6%",marginRight: "6%"}}>Time</Navbar.Brand>
+                  <Navbar.Brand style={{paddingRight: "8%",borderRight: "1px solid white",marginLeft: "3%",marginRight: "6%"}}>Room</Navbar.Brand>
+                  <Navbar.Brand style={{paddingRight: "8%",borderRight: "1px solid white",marginLeft: "2%"}}>State</Navbar.Brand>
                 </div>
               </Container>
             </Navbar>
           )}
 
-          {Appointment.map((elt, index) => (
+          {Request.map((elt, index) => (
             <div style={styleContainer}>
               <OneNotif elt={elt} />
             </div>
           ))}
         </div>
-        {Appointment && Appointment.length === 0 && (
+        {Request && Request.length === 0 && (
           <div style={{ display: "flex", justifyContent: "center" }}>
             <p
               style={{

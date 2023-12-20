@@ -51,9 +51,13 @@ const RateTutor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { rating, tutorEmail, studentEmail } = formData;
-
     const ratingExists = await axios.get(`http://localhost:8080/api/ratings/${tutorEmail}/${studentEmail}`);
-
+    const token = localStorage.getItem("token");
+    console.log(token)
+    if (token) {
+    const headers = {
+    'Authorization': `Bearer ${token}`
+    };
   if (ratingExists.data) {
     console.log(ratingExists.data,`http://localhost:8080/api/ratings/${tutorEmail}/${studentEmail}`)
     const existingRatingId = ratingExists.data.rateID; 
@@ -72,7 +76,7 @@ const RateTutor = () => {
   } else {
     const createUrl = "http://localhost:8080/api/ratings";
     axios
-      .post(createUrl, formData)
+      .post(createUrl, formData,{headers})
       .then((response) => {
         console.log(response.data);
         alert(response.data.msg);
@@ -83,7 +87,7 @@ const RateTutor = () => {
         console.error("There was an error", error);
       });
   }
-};
+}};
 
   const handleChange = (e) => {
     const { name, value } = e.target;

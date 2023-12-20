@@ -3,37 +3,10 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import "./Sidebar.css";
+
 function Sidebar({ student, tutorID }) {
-  const [image, setImage] = useState(null);
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  
-    const url = `http://localhost:8088/api/students/uploads/${student.StudentID}`;
-  
-    const formData = new FormData();
-    formData.append('file', image); // Use the 'image' state here
-  
-    axios
-      .put(url, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // Set proper content type for FormData
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        // Handle success response as needed
-      })
-      .catch((error) => {
-        console.error('There was an error!', error);
-        // Handle error as needed
-      });
-  };
 
 
   const styleSide = {

@@ -96,13 +96,14 @@ function Appointments() {
               data-bs-theme="dark"
               style={{ width: "70%", margin: "auto", marginTop: "3%" }}
             >
-              <Container>
+               <Container>
                 <div
                   style={{
                     display: "flex",
                     width: "80%",
                     justifyContent: "space-between",
                     margin: "auto",
+                    gap:"60px"
                   }}
                 >
                   <Navbar.Brand style={styleBar}>Date</Navbar.Brand>

@@ -4,11 +4,15 @@ const subjectRoute = express.Router();
 const {
     getSubjects,
     postSubject,
-    getOneSubject
+    getOneSubjectByName,
+    getOneSubjectByID,
+    deleteSubject
 } = require("../Controllers/subjectController");
 
 subjectRoute.get("/subjects", getSubjects);
-subjectRoute.get("/subjects/:subjectName", getOneSubject);
+subjectRoute.get("/subjects/:subjectName", getOneSubjectByName);
+subjectRoute.get("/subjectID/:id", getOneSubjectByID);
 subjectRoute.post("/subjects", postSubject);
+subjectRoute.delete("/subjects/:id", deleteSubject);
 
 module.exports = subjectRoute;

@@ -1,6 +1,6 @@
 import Sidebar from "./Sidebar";
 import { useState } from "react";
-import OneRequest from "./OneRequest";
+import OneApplication from "./OneApplication";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import axios from "axios";
@@ -20,7 +20,7 @@ const styleContainer = {
   minHeight: "20vh",
   width: "100%",
   display: "flex",
-  justifyContent: "space-around",
+  justifyContent: "center",
 };
 const styleContainer2 = {
   backgroundColor: "white",
@@ -33,17 +33,14 @@ const styleContainer2 = {
   margin: "0",
 };
 const styleBar = {
+  paddingRight: "15%",
   borderRight: "1px solid white",
-  marginLeft: "75%",
-  marginRight: "22%",
-  paddingRight: "30%",
+  marginLeft: "8%",
 };
-function Requests({ tutors }) {
-  const [Appointment, setAppointment] = useState([]);
-  const [student, setStudent] = useState({});
-  const [tutorID, setTutorID] = useState(-1);
-  console.log(student, tutorID, Appointment);
 
+function ApplicationsRequests() {
+  const [Application, setApplication] = useState([]);
+  const [student, setStudent] = useState({});
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
@@ -62,15 +59,10 @@ function Requests({ tutors }) {
           );
           setStudent(studentResponse.data.student);
 
-          const tutorResponse = await axios.get(
-            `http://localhost:8080/api/tutors/${currentStudentId}`
+          const Applications = await axios.get(
+            `http://localhost:8080/api/applications`
           );
-          setTutorID(tutorResponse.data.TutorID);
-          const currentTutorId = tutorID;
-          const tutorAppointments = await axios.get(
-            `http://localhost:8080/api/appointments/pending/${currentTutorId}`
-          );
-          setAppointment(tutorAppointments.data.appointments);
+          setApplication(Applications.data.applications);
         } catch (error) {
           console.error("Token decoding or fetching data error:", error);
         }
@@ -78,24 +70,33 @@ function Requests({ tutors }) {
     };
 
     fetchData();
-    console.log(student, tutorID);
-  }, [tutorID]);
+    console.log(student);
+  }, []);
 
-  const handleDelete = (id, newState) => {
-    if (window.confirm("are you sure about your decision")) {
-      axios
-        .put(`http://localhost:8080/api/appointments/${id}/${newState}`)
+  const handleDelete = (id, newState,studentID,subjectID) => {
+    if (window.confirm("Are you sure about your decision?")) {
+      axios.put(`http://localhost:8080/api/applications/${id}/${newState}`)
         .then((res) => {
-          console.log(`Appointment state = ${newState}`);
+          console.log(`Application state = ${newState}`);
+          if (newState === 'approved') {
+            axios.post(`http://localhost:8080/api/tutors/${studentID}/${subjectID}`, {
+            })
+            .then((response) => {
+              console.log('Application accepted:', response.data);
+            })
+            .catch((error) => {
+              console.error('Error accepting application:', error);
+            });
+          }
         })
         .catch((err) => {
-          console.error("Error updating appointment:", err);
+          console.error("Error updating Application:", err);
         });
-      setAppointment(Appointment.filter((elt) => elt.AppointmentID !== id));
+      setApplication(Application.filter((elt) => elt.RequestID !== id));
     }
   };
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <div style={{ display: "flex" }}>
       <div style={{ marginRight: "16%" }}>
         <Sidebar student={student} />
       </div>
@@ -103,7 +104,7 @@ function Requests({ tutors }) {
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          {Appointment && Appointment.length > 0 && (
+          {Application && Application.length > 0 && (
             <Navbar
               bg="dark"
               data-bs-theme="dark"
@@ -116,48 +117,24 @@ function Requests({ tutors }) {
                     width: "80%",
                     justifyContent: "flex-start",
                     margin: "auto",
-                    gap: "130px",
+                    gap:"90px"
                   }}
                 >
-                  <Navbar.Brand
-                    style={{
-                      paddingRight: "8%",
-                      borderRight: "1px solid white",
-                      margin: "0",
-                    }}
-                  >
-                    Date
-                  </Navbar.Brand>
-                  <Navbar.Brand
-                    style={{
-                      paddingRight: "8%",
-                      borderRight: "1px solid white",
-                      margin: "0",
-                    }}
-                  >
-                    Time
-                  </Navbar.Brand>
-                  <Navbar.Brand
-                    style={{
-                      paddingRight: "8%",
-                      borderRight: "1px solid white",
-                      margin: "0",
-                    }}
-                  >
-                    Room
-                  </Navbar.Brand>
+                  <Navbar.Brand style={ {paddingRight: "8%",borderRight: "1px solid white",margin:"0"}}>Student</Navbar.Brand>
+                  <Navbar.Brand style={ {paddingRight: "8%",borderRight: "1px solid white",margin:"0"}}>Subject</Navbar.Brand>
+                  <Navbar.Brand style={ {paddingRight: "8%",borderRight: "1px solid white",margin:"0"}}>Grade</Navbar.Brand>
                 </div>
               </Container>
             </Navbar>
           )}
 
-          {Appointment.map((elt, index) => (
+          {Application.map((elt, index) => (
             <div style={styleContainer}>
-              <OneRequest elt={elt} handleDelete={handleDelete} />
+              <OneApplication elt={elt} handleDelete={handleDelete}/>
             </div>
           ))}
         </div>
-        {Appointment && Appointment.length === 0 && (
+        {Application && Application.length === 0 && (
           <div style={{ display: "flex", justifyContent: "center" }}>
             <p
               style={{
@@ -168,7 +145,7 @@ function Requests({ tutors }) {
                 marginRight: "10%",
               }}
             >
-              No requests at the moment
+              No Application at the moment
             </p>
             <img
               style={styleImage}
@@ -181,4 +158,4 @@ function Requests({ tutors }) {
     </div>
   );
 }
-export default Requests;
+export default ApplicationsRequests;

@@ -24,7 +24,6 @@ const Application = () => {
             Authorization: `Bearer ${token}`,
           };
 
-          axios.put("http://localhost:8080/api/appointments");
 
           const studentResponse = await axios.get(
             `http://localhost:8080/api/students/${currentStudentId}`,
@@ -58,29 +57,34 @@ const Application = () => {
     e.preventDefault();
 
     try {
+      const token = localStorage.getItem("token");
+    console.log(token)
+    if (token) {
+    const headers = {
+    'Authorization': `Bearer ${token}`
+    };
       const previousApplication = await axios.get(
         `http://localhost:8080/api/applications/${student.StudentID}`
       );
       console.log(previousApplication);
-
+      
       if (previousApplication.data.applications.length > 0) {
         await axios.delete(
           `http://localhost:8080/api/applications/${student.StudentID}`
         );
       }
-
       await axios.post("http://localhost:8080/api/application", {
         email: email,
         subjectName: subjectName,
         subjectGrade: subjectGrade,
-      });
+      },{headers});
 
       setEmail("");
       setSubject("");
       setSubjectGrade("");
 
       window.alert("Application submitted successfully!");
-    } catch (error) {
+    }} catch (error) {
       console.error("Error submitting application:", error);
       window.alert("Failed to submit the application. Please try again.");
     }

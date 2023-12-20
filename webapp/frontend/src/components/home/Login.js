@@ -32,7 +32,7 @@ function Login() {
         navigate('/StudentDash');
       }
       else if(response.data.student.UserType==='admin'){
-        navigate('/StudentDash');
+        navigate('/AdminDash');
       }
       else{navigate('/')}}
       

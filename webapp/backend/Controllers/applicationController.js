@@ -31,8 +31,11 @@ const getApplicationsByID = async (request, response) => {
 
 const getApplications = async (request, response) => {
     try {
-      const applications = await sequelize.query("SELECT * FROM applications", {
-        type: QueryTypes.SELECT,
+      const applications = await Application.findAll({
+        where: {
+          Result: 'pending',
+         
+        }
       });
       response.status(200).json({ applications });
     } catch (error) {
@@ -71,12 +74,12 @@ const getApplications = async (request, response) => {
   };
 
   const putApplication = async (req, res) => {
-    const {id,result} = req.params;
+    const {requestID,result} = req.params;
 
     try {
         const [updateCount] = await Application.update(
             { Result: result },
-            { where: { ApplicationID: id, Result: 'Pending' } }
+            { where: { RequestID: requestID, Result: 'Pending' } }
         );
 
         if (updateCount > 0) {

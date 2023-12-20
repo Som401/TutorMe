@@ -73,11 +73,20 @@ const MakeAppointment = () => {
       [name]: formattedDate,
     }));}
   
+    
+    
   const handlesubmit = async (e) => {
     e.preventDefault();
+    
     const url = "http://localhost:8080/api/appointments";
+    const token = localStorage.getItem("token");
+    console.log(token)
+    if (token) {
+    const headers = {
+    'Authorization': `Bearer ${token}`
+    };
     axios
-      .post(url, formData)
+      .post(url, formData,{headers})
       .then((response) => {
         console.log(response.data);
         alert(response.data.msg);
@@ -87,7 +96,7 @@ const MakeAppointment = () => {
         alert(error.response.data.msg);
         console.error("there was an error", error);
       });
-  };
+  }};
 
   const styleContainer2 = {
     backgroundColor: "white",

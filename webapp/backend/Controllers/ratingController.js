@@ -57,13 +57,13 @@ const postRating = async (request, response) => {
       .status(201)
       .json({
         appointment: newAppointment,
-        msg: "Appointment created successfully",
+        msg: "rating created successfully",
       });
   } catch (error) {
-    console.error("Error creating appointment:", error);
+    console.error("Error creating rating:", error);
     response
       .status(500)
-      .json({ msg: "Error creating appointment", error: error.message });
+      .json({ msg: "Error creating rating", error: error.message });
   }
 };
 

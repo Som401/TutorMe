@@ -8,8 +8,11 @@ const {
     updateRating
 } = require("../Controllers/ratingController");
 
+const isAuth = require("../middleware/isAuth")
+const isAutho = require("../middleware/isAutho")
+
 ratingRoute.get("/ratings/:tutorID", getRatings);
-ratingRoute.post("/ratings", postRating);
+ratingRoute.post("/ratings",isAuth,isAutho(['student']), postRating);
 ratingRoute.get('/ratings/:tutorEmail/:studentEmail', checkRatingExists);
 ratingRoute.put('/ratings/:existingRatingId', updateRating);
 

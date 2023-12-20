@@ -102,6 +102,7 @@ function Appointments() {
                     width: "80%",
                     justifyContent: "space-between",
                     margin: "auto",
+                    gap:"60px"
                   }}
                 >
                   <Navbar.Brand style={styleBar}>Date</Navbar.Brand>

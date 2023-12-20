@@ -44,14 +44,14 @@ const getAppointmentsbyStudentId = async (request, response) => {
   }
 };
 
-const getAppointmentsByStudentId2 = async (request, response) => {
+const getRequestsByStudentId = async (request, response) => {
   const { studentID } = request.params;
 
   try {
     const appointments = await sequelize.query(
-      'SELECT * FROM appointments WHERE State IN (:pending, :denied) AND StudentID = :studentID ORDER BY Date ASC',
+      'SELECT * FROM appointments WHERE State IN (:pending, :declined) AND StudentID = :studentID ORDER BY Date ASC',
       {
-        replacements: { pending: 'pending', denied: 'denied', studentID: studentID },
+        replacements: { pending: 'pending', declined: 'declined', studentID: studentID },
         type: QueryTypes.SELECT,
       }
     );
@@ -188,5 +188,25 @@ const putAppointmentsAuto = async (request, response) => {
   }
 };
 
+const getAppointmentsBySubjectID = async (request, response) => {
+  try {
+    const { subjectID } = request.params;
 
-  module.exports={getAppointmentsbyTutorId,getAppointmentsByStudentId2,postAppointment,updateAppointmentState,getExstudents,getAppointmentsbyStudentId,putAppointmentsAuto,getDoneAppointments};
+    const appointments = await sequelize.query(
+      'SELECT * FROM appointments INNER JOIN tutors ON appointments.TutorID = tutors.TutorID WHERE tutors.SubjectID = :subjectID AND appointments.State = :state',
+      {
+        replacements: { subjectID, state:"done" },
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    response.status(200).json({ appointments });
+  } catch (error) {
+    console.error('Error fetching appointments by subjectID and state:', error);
+    response
+      .status(500)
+      .json({ msg: 'Error getting appointments by subjectID and state', error: error.message });
+  }
+};
+
+  module.exports={getAppointmentsbyTutorId,getRequestsByStudentId,postAppointment,updateAppointmentState,getExstudents,getAppointmentsbyStudentId,putAppointmentsAuto,getDoneAppointments,getAppointmentsBySubjectID};

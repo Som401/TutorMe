@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const Student = require("../models/Student");
 const { QueryTypes } = require("sequelize");
-//const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const getStudents = async (request, response) => {
   try {
@@ -43,10 +43,10 @@ const login=async(req,res)=>{
       replacements: [Email], 
       type: QueryTypes.SELECT,
     });
-  
     if (foundStudent.length > 0) {
       const student = foundStudent[0]; 
-      if (student.Password === Password) {
+      const match = await bcrypt.compare(Password, student.Password);
+      if (match) {
         const token = jwt.sign(
           { StudentID: student.StudentID, UserType: student.UserType },
           process.env.JWT_SECRET
@@ -67,8 +67,11 @@ const login=async(req,res)=>{
 
 const postStudent = async (request, response) => {
   try {
-    const newStudent = request.body;
-    const { Email } = newStudent; 
+    const { Email,Password  } = request.body; 
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(Password, saltRounds);
+    const newStudent = { ...request.body, Password: hashedPassword };
+    console.log(newStudent);
     const foundStudent = await sequelize.query("SELECT * FROM students WHERE Email = ?", {
       replacements: [Email], 
       type: QueryTypes.SELECT,

@@ -27,10 +27,9 @@ function Register() {
     e.preventDefault();
     if (student.Password !== ConPass.password) {
       alert("Password and Confirm Password do not match");
-      // Reset password and confirm password fields
       setStudent({ ...student, Password: "" });
       setPass({ ...ConPass, password: "" });
-      return; // Stop further execution
+      return; 
     }
     const url = "http://localhost:8080/api/students";
     axios

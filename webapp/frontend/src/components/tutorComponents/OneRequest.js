@@ -22,7 +22,7 @@ function OneRequest({elt,handleDelete}){
           <div style={{display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
 
           <Button variant="primary" style={{backgroundColor:"#E0E1E5",border:"#E0E1E5",opacity:1,color:"black"}} onClick={() => handleDelete(elt.AppointmentID, 'approved')}>Accept</Button>
-            <Button variant="primary" style={{backgroundColor:"#BFBCC7",border:"#BFBCC7",opacity:1,color:"black"}} onClick={() => handleDelete(elt.AppointmentID, 'denied')}>Deny</Button>
+            <Button variant="primary" style={{backgroundColor:"#BFBCC7",border:"#BFBCC7",opacity:1,color:"black"}} onClick={() => handleDelete(elt.AppointmentID, 'declined')}>Deny</Button>
           </div>
         </div>
     </>

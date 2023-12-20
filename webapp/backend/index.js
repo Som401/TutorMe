@@ -6,19 +6,12 @@ const appointmentRoute =require("./routes/appointmentRoute")
 const ratingRoute =require("./routes/ratingRoute")
 const applicationRoute =require("./routes/applicationRoute")
 
-
 const { connectDb } = require("./configuration/connectDb");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
-app.use(cors({
-  //origin:["http://localhost:3000"],
-  //methods:["POST","GET"],
-  //credentials:true
-}));
-//app.use(cookieParser());
+app.use(cors());
 app.use(express.json());
-
 const dotenv = require("dotenv");
 dotenv.config();
 const port = process.env.PORT;

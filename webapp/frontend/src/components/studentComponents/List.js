@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import TutorData from '../tutorComponents/TutorData.js'; 
 import TutorCard from '../tutorComponents/TutorCard';
 import { useEffect } from 'react';
 import '../tutorComponents/TutorCard.css';

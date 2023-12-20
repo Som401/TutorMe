@@ -7,11 +7,9 @@ import Requests from "./components/tutorComponents/Requests";
 import Appointments from "./components/tutorComponents/Appointments";
 import StudentAppointments from "./components/studentComponents/StudentAppointments";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import { TutorData } from "./Data";
 import About from "./components/home/About";
 import PrivateRoute from "./components/home/PrivateRoute";
 import "./App.css";
-import {  useEffect,useState } from "react";
 import StudentDash from './components/studentComponents/StudentDash';
 import Notifications from './components/studentComponents/Notifications';
 import SearchBar from './components/studentComponents/SearchBar'; 
@@ -19,7 +17,12 @@ import MakeAppointment from './components/studentComponents/MakeAppointment';
 import RateTutor from './components/studentComponents/RateTutor';
 import Application from './components/studentComponents/Application'
 import {StudentProvider} from './components/home/StudentContext';
-
+import AdminDash from './components/adminComponents/AdminDash';
+import ApplicationsRequests from './components/adminComponents/ApplicationsRequests';
+import Subjects from './components/adminComponents/Subjects';
+import Tutors from './components/adminComponents/Tutors';
+import Students from './components/adminComponents/Students';
+import AddSubject from "./components/adminComponents/AddSubject";
 function App() {
 
   return (
@@ -42,7 +45,20 @@ function App() {
             element={<StudentAppointments/>}
           />
           <Route path="/Register" element={<Register />} />
-          
+          <Route
+            path="/AdminDash"
+            element={
+              <PrivateRoute allowedRoles={["admin"]}>
+                <AdminDash/>
+              </PrivateRoute>
+            }
+          />
+          <Route path="/AddSubject" element={<AddSubject />} />
+          <Route path="/ApplicationRequests" element={<ApplicationsRequests />} />
+          <Route path="/Subjects" element={<Subjects />} />
+          <Route path="/Tutors" element={<Tutors />} />
+          <Route path="/Students" element={<Students />} />
+
           <Route
             path="/studentDash"
             element={
